@@ -30,9 +30,9 @@ function Wl_Book_Process_Store_StoreGroupModel()
    * @property {number} s_value The unique identifier of the item being checked.
    * This corresponds to one of the following values:
    * <ul>
-   *   <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_purchase}["s_value"]</li>
-   *   <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_reward_prize}["s_value"]</li>
-   *   <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_login_prize}["s_value"]</li>
+   *   <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_purchase}`["s_value"]`</li>
+   *   <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_reward_prize}`["s_value"]`</li>
+   *   <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_login_prize}`["s_value"]`</li>
    * </ul>
    */
 
@@ -55,9 +55,9 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *     The unique identifier of the item being checked.
    *     This corresponds to one of the following values:
    *     <ul>
-   *       <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_purchase}["s_value"]</li>
-   *       <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_reward_prize}["s_value"]</li>
-   *       <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_login_prize}["s_value"]</li>
+   *       <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_purchase}`["s_value"]`</li>
+   *       <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_reward_prize}`["s_value"]`</li>
+   *       <li>{@link Wl_Book_Process_Purchase_Purchase56Model.a_login_prize}`["s_value"]`</li>
    *     </ul>
    *   </dd>
    * </dl>
