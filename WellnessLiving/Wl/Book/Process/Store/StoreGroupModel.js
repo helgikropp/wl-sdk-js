@@ -199,6 +199,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
   /**
    * Date/time to which session is booked.
    *
+   * @get get
    * @post get
    * @type {string}
    */
@@ -207,10 +208,23 @@ function Wl_Book_Process_Store_StoreGroupModel()
   /**
    * The mode type. One of the {@link Wl_Book_Process_Store_ModeSid} constants.
    *
+   * @get get
    * @post get
    * @type {number}
    */
   this.id_mode = 0;
+
+  /**
+   * `true` if action is performed as a staff member; `false` otherwise.
+   *
+   * If `true` is sent, access to the business and to the client will be checked.
+   * If `false` is sent, user can book only for himself or for relatives if this is allowed in business settings.
+   *
+   * @get get
+   * @post get
+   * @type {boolean}
+   */
+  this.is_backend = false;
 
   /**
    * `true` to book unpaid.
@@ -225,6 +239,18 @@ function Wl_Book_Process_Store_StoreGroupModel()
   this.is_book_unpaid = false;
 
   /**
+   * Checking whether the client has a credit card (if configured in the business) will be skipped if this flag is set to `false`.
+   *
+   * Use this field with caution.
+   * The final booking will not use this flag, and the check will still be performed.
+   *
+   * @get get
+   * @post get
+   * @type {boolean}
+   */
+  this.is_credit_card_check = true;
+
+  /**
    * `true` if user pressed 'Pay later'.
    * `false` if user pressed 'Pay now'.
    *
@@ -236,6 +262,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
   /**
    * Key of session which is booked.
    *
+   * @get get
    * @post get
    * @type {string}
    */
@@ -244,6 +271,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
   /**
    * The client key for which the booking is being made.
    *
+   * @get get
    * @post get
    * @type {string}
    */
@@ -259,5 +287,5 @@ WlSdk_ModelAbstract.extend(Wl_Book_Process_Store_StoreGroupModel);
  */
 Wl_Book_Process_Store_StoreGroupModel.prototype.config=function()
 {
-  return {"a_field": {"a_login_promotion": {"post": {"post": true}},"a_purchase_item_check": {"post": {"post": true}},"a_purchase_item_distribute": {"post": {"result": true}},"a_resource": {"post": {"post": true}},"a_session_pass": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"dt_date_gmt": {"post": {"get": true}},"id_mode": {"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_force_pay_later": {"post": {"post": true}},"k_class_period": {"post": {"get": true}},"uid": {"post": {"get": true}}}};
+  return {"a_field": {"a_login_promotion": {"post": {"post": true}},"a_purchase_item_check": {"post": {"post": true}},"a_purchase_item_distribute": {"post": {"result": true}},"a_resource": {"post": {"post": true}},"a_session_pass": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
 };
