@@ -19,7 +19,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    * * Value - login promotion key.
    *
    * @post post
-   * @type {{}}
+   * @type {string[]}
    */
   this.a_login_promotion = [];
 
@@ -130,7 +130,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    * </dl>
    *
    * @post result
-   * @type {Wl_Book_Process_Store_StoreGroupModel_a_purchase_item_distribute}
+   * @type {Wl_Book_Process_Store_StoreGroupModel_a_purchase_item_distribute[]}
    */
   this.a_purchase_item_distribute = [];
 
@@ -166,7 +166,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *  * Value - session pass key.
    *
    * @post post
-   * @type {{}}
+   * @type {string[]}
    */
   this.a_session_pass = [];
 
@@ -179,7 +179,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *   * Value - index arrays of dates/times when the session occurred (MySQL format; UTC).
    *
    * @post post
-   * @type {{}[]}
+   * @type {string[][]}
    */
   this.a_session_select = [];
 
@@ -192,7 +192,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *   * Value - index arrays of dates/times when the session occurred (MySQL format; UTC).
    *
    * @post post
-   * @type {{}[]}
+   * @type {string[][]}
    */
   this.a_session_wait_list_unpaid = [];
 
