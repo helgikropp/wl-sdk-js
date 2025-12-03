@@ -85,6 +85,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *   The same as in {@link Wl_Book_Process_Store_StoreGroupModel.a_purchase_item_check}.
    *   `null` if not applicable.
    * @property {string} text_error Error text if the purchase item cannot be applied to the current class or event for this client.
+   * @property {string} text_error_code Error code if the purchase item cannot be applied to the current class or event for this client.
    */
 
   /**
@@ -126,6 +127,10 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *   <dt>string `text_error`</dt>
    *   <dd>
    *       Error text if the purchase item cannot be applied to the current class or event for this client.
+   *   </dd>
+   *   <dt> string `text_error_code`</dt>
+   *   <dd>
+   *       Error code if the purchase item cannot be applied to the current class or event for this client.
    *   </dd>
    * </dl>
    *
