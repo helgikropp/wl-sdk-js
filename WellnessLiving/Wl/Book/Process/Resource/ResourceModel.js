@@ -48,57 +48,7 @@ function Wl_Book_Process_Resource_ResourceModel()
    */
 
   /**
-   * Information about the recurring booking:
-   * <dl>
-   *   <dt>int[] <var>a_day</var></dt>
-   *   <dd>
-   *     The days of week when the appointment repeat.One of the {@link ADateWeekSid} constants.
-   *     Should be passed for any type of repetition.
-   *   </dd>
-   *   <dt>int[] <var>a_week</var></dt>
-   *   <dd>Deprecated, use `a_day` instead!</dd>
-   *   <dt>string [<var>dl_end</var>]</dt>
-   *   <dd>Deprecated, use `dt_from` and `dt_to` instead!</dd>
-   *   <dt>
-   *     string [<var>dt_from</var>]
-   *   </dt>
-   *   <dd>
-   *     Date to start recurring booking.
-   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
-   *   </dd>
-   *   <dt>
-   *     string [<var>dt_to</var>]
-   *   </dt>
-   *   <dd>
-   *     Date to complete recurring booking.
-   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
-   *   </dd>
-   *   <dt>
-   *      int [<var>i_count</var>]
-   *    </dt>
-   *    <dd>
-   *      The number of occurrences after which the appointment's repeat cycle stops.
-   *      Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
-   *      Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
-   *    </dd>
-   *   <dt>int <var>i_duration</var></dt>
-   *   <dd>Count of days\weeks\months between recurring bookings.</dd>
-   *   <dt>int [<var>i_occurrence</var>]</dt>
-   *   <dd>Deprecated, use `i_count` instead!</dd>
-   *   <dt>int <var>i_period</var></dt>
-   *   <dd>Deprecated, use `i_duration` instead!</dd>
-   *   <dt>
-   *     int <var>id_duration</var>
-   *   </dt>
-   *   <dd>
-   *     The measurement unit of `i_period`. One of the {@link ADurationSid} constants.
-   *     Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
-   *   </dd>
-   *   <dt>int <var>id_period</var></dt>
-   *   <dd>Deprecated, use `id_duration` instead!</dd>
-   *   <dt>int <var>id_repeat_end</var></dt>
-   *   <dd>Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.</dd>
-   * </dl>
+   * Information about the recurring booking.
    *
    * This will be `null` if the booking isn't recurring.
    *
@@ -109,11 +59,16 @@ function Wl_Book_Process_Resource_ResourceModel()
 
   /**
    * @typedef {{}} Wl_Book_Process_Resource_ResourceModel_a_resource_all_a_resource_list
+   * @property {{}} a_class_period List of resources available for booking sessions.
+   * 1st level keys - class period keys; 2nd level keys - date/time of the session in MySQL format and in GMT.
    * @property {{}} a_image Asset image data. See {@link RsResourceImage::data()} for details.
    * @property {number} i_index The asset number. Actual for assets with a quantity more than <tt>1</tt>.
+   * @property {number} i_quantity Total quantity of asset.
+   * @property {number} i_use Quantity of already booked assets.
    * @property {boolean} is_current <tt>true</tt> means that this asset is selected by client, <tt>false</tt> - otherwise.
    * @property {string} k_resource The key of the asset in database.
    * @property {string} s_resource The title of the asset.
+   * @property {string} url_icon URL of asser's icon1.
    */
   /**
    * @typedef {{}} Wl_Book_Process_Resource_ResourceModel_a_resource_all
@@ -121,39 +76,8 @@ function Wl_Book_Process_Resource_ResourceModel()
    * 1st level keys - asset keys; 2nd level keys - asset number.
    * For example, if you want to check if 10th asset with key '125' is free,
    * you have to check if <tt>a_client['125']['10']</tt> is empty.
-   * @property {Wl_Book_Process_Resource_ResourceModel_a_resource_all_a_resource_list[]} a_resource_list A list of available assets. Every element has next keys:
-   * <dl>
-   *   <dt>
-   *     array <tt>a_image</tt>
-   *   </dt>
-   *   <dd>
-   *     Asset image data. See {@link RsResourceImage::data()} for details.
-   *   </dd>
-   *   <dt>
-   *     int <tt>i_index</tt>
-   *   </dt>
-   *   <dd>
-   *     The asset number. Actual for assets with a quantity more than <tt>1</tt>.
-   *   </dd>
-   *   <dt>
-   *     bool <tt>is_current</tt>
-   *   </dt>
-   *   <dd>
-   *     <tt>true</tt> means that this asset is selected by client, <tt>false</tt> - otherwise.
-   *   </dd>
-   *   <dt>
-   *     string <tt>k_resource</tt>
-   *   </dt>
-   *   <dd>
-   *     The key of the asset in database.
-   *   </dd>
-   *   <dt>
-   *     string <tt>s_resource</tt>
-   *   </dt>
-   *   <dd>
-   *     The title of the asset.
-   *   </dd>
-   * </dl>
+   * @property {string[]} a_resource_available List of available resource keys.
+   * @property {Wl_Book_Process_Resource_ResourceModel_a_resource_all_a_resource_list[]} a_resource_list A list of available assets.
    * @property {boolean} has_current <tt>true</tt> - has current resource in the list of available assets; <tt>false</tt> - otherwise.
    * @property {boolean} is_client_select <tt>true</tt> - the client selected the resource from the current group; <tt>false</tt> otherwise.
    * @property {boolean} is_select <tt>true</tt> - has selected resources; <tt>false</tt> - otherwise.
@@ -165,99 +89,7 @@ function Wl_Book_Process_Resource_ResourceModel()
    */
 
   /**
-   * A list of asset categories which are available for specified session. Every element has next keys:
-   * <dl>
-   *   <dt>
-   *     array <var>a_client</var>
-   *   </dt>
-   *   <dd>
-   *     A list of clients who have already occupied assets for this session.
-   *     1st level keys - asset keys; 2nd level keys - asset number.
-   *     For example, if you want to check if 10th asset with key '125' is free,
-   *     you have to check if <tt>a_client['125']['10']</tt> is empty.
-   *   </dd>
-   *   <dt>
-   *     array[] <var>a_resource_list</var>
-   *   </dt>
-   *   <dd>
-   *     A list of available assets. Every element has next keys:
-   *     <dl>
-   *       <dt>
-   *         array <var>a_image</var>
-   *       </dt>
-   *       <dd>
-   *         Asset image data. See {@link RsResourceImage::data()} for details.
-   *       </dd>
-   *       <dt>
-   *         int <var>i_index</var>
-   *       </dt>
-   *       <dd>
-   *         The asset number. Actual for assets with a quantity more than <tt>1</tt>.
-   *       </dd>
-   *       <dt>
-   *         bool <var>is_current</var>
-   *       </dt>
-   *       <dd>
-   *         <tt>true</tt> means that this asset is selected by client, <tt>false</tt> - otherwise.
-   *       </dd>
-   *       <dt>
-   *         string <var>k_resource</var>
-   *       </dt>
-   *       <dd>
-   *         The key of the asset in database.
-   *       </dd>
-   *       <dt>
-   *         string <var>s_resource</var>
-   *       </dt>
-   *       <dd>
-   *         The title of the asset.
-   *       </dd>
-   *     </dl>
-   *   </dd>
-   *   <dt>
-   *     bool <var>has_current</var>
-   *   </dt>
-   *   <dd>
-   *     <tt>true</tt> - has current resource in the list of available assets; <tt>false</tt> - otherwise.
-   *   </dd>
-   *   <dt>
-   *     bool <var>is_client_select</var>
-   *   </dt>
-   *   <dd>
-   *     <tt>true</tt> - the client selected the resource from the current group; <tt>false</tt> otherwise.
-   *   </dd>
-   *   <dt>
-   *     bool <var>is_select</var>
-   *   </dt>
-   *   <dd>
-   *     <tt>true</tt> - has selected resources; <tt>false</tt> - otherwise.
-   *   </dd>
-   *   <dt>
-   *     bool <var>is_share</var>
-   *   </dt>
-   *   <dd>
-   *     <tt>true</tt> resources in this category don't belong to certain users, but to the entire session.
-   *     <tt>false</tt> belong to specific users.
-   *   </dd>
-   *   <dt>
-   *     string <var>k_resource_layout</var>
-   *   </dt>
-   *   <dd>
-   *     The key of the asset layout.
-   *   </dd>
-   *   <dt>
-   *     string <var>k_resource_type</var>
-   *   </dt>
-   *   <dd>
-   *     The key of the asset category.
-   *   </dd>
-   *   <dt>
-   *     string <var>s_resource_type</var>
-   *   </dt>
-   *   <dd>
-   *     The title of the asset category.
-   *   </dd>
-   * </dl>
+   * A list of asset categories which are available for specified session.
    *
    * @get result
    * @type {Wl_Book_Process_Resource_ResourceModel_a_resource_all[]}
@@ -271,16 +103,10 @@ function Wl_Book_Process_Resource_ResourceModel()
    */
 
   /**
-   * The selected assets. Every element has the next keys:
-   * <dl>
-   *   <dt>int <var>i_index</var></dt>
-   *   <dd>The asset number. Applies only for assets with a quantity greater than <tt>1</tt>.</dd>
-   *   <dt>string <var>k_resource</var></dt>
-   *   <dd>The asset key.</dd>
-   * </dl>
+   * The selected assets.
    *
    * @post post
-   * @type {Wl_Book_Process_Resource_ResourceModel_a_resource_select}
+   * @type {Wl_Book_Process_Resource_ResourceModel_a_resource_select[]}
    */
   this.a_resource_select = [];
 
