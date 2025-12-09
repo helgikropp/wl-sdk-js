@@ -75,6 +75,16 @@ function Wl_Profile_Timezone_ProfileTimezoneModel()
   this.a_timezone = [];
 
   /**
+   * If a timezone deprecation validation is needed.
+   *
+   * `true` if required, `false` - otherwise.
+   *
+   * @put post
+   * @type {boolean}
+   */
+  this.is_deprecate_restrict = false;
+
+  /**
    * Whether clients are allowed to adjust timezone.
    *
    * <tt>true</tt> if allowed, <tt>false</tt> - otherwise.
@@ -119,5 +129,5 @@ WlSdk_ModelAbstract.extend(Wl_Profile_Timezone_ProfileTimezoneModel);
  */
 Wl_Profile_Timezone_ProfileTimezoneModel.prototype.config=function()
 {
-  return {"a_field": {"a_timezone": {"get": {"result": true}},"is_profile_timezone": {"get": {"result": true}},"k_business": {"get": {"get": true},"put": {"get": true}},"k_timezone": {"put": {"post": true}},"k_timezone_select": {"get": {"result": true}}}};
+  return {"a_field": {"a_timezone": {"get": {"result": true}},"is_deprecate_restrict": {"put": {"post": true}},"is_profile_timezone": {"get": {"result": true}},"k_business": {"get": {"get": true},"put": {"get": true}},"k_timezone": {"put": {"post": true}},"k_timezone_select": {"get": {"result": true}}}};
 };
