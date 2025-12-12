@@ -122,9 +122,9 @@ function Wl_Visit_VisitStatusModel()
    *
    * @get result
    * @post post
-   * @type {string}
+   * @type {number}
    */
-  this.id_visit = "0";
+  this.id_visit = 0;
 
   /**
    * The status of the visit from which the transition is made. One of the {@link Wl_Visit_VisitSid} constants.
@@ -158,7 +158,7 @@ function Wl_Visit_VisitStatusModel()
   this.is_event = false;
 
   /**
-   * Whether or not to send email notification.
+   * Whether to send email notification.
    *
    * `true` - email notification will be sent.
    * `false` - email notification will not be sent.
@@ -169,7 +169,7 @@ function Wl_Visit_VisitStatusModel()
   this.is_mail = false;
 
   /**
-   * Whether or not to send push notification.
+   * Whether to send push notification.
    *
    * `true` - push notification will be sent.
    * `false` - push notification will not be sent.
@@ -191,7 +191,7 @@ function Wl_Visit_VisitStatusModel()
   this.is_request = false;
 
   /**
-   * Whether or not to send sms notification.
+   * Whether to send sms notification.
    *
    * `true` - sms notification will be sent.
    * `false` - sms notification will not be sent.
@@ -329,6 +329,15 @@ function Wl_Visit_VisitStatusModel()
    */
   this.text_title = "";
 
+  /**
+   * Key of a user who made a visit.
+   * `null` for a guest visit.
+   *
+   * @get result
+   * @type {?string}
+   */
+  this.uid = null;
+
   this.changeInit();
 }
 
@@ -339,5 +348,5 @@ WlSdk_ModelAbstract.extend(Wl_Visit_VisitStatusModel);
  */
 Wl_Visit_VisitStatusModel.prototype.config=function()
 {
-  return {"a_field": {"a_resource": {"get": {"result": true}},"a_resource_alias": {"get": {"result": true}},"a_staff": {"get": {"result": true}},"dt_date": {"get": {"result": true}},"dtl_date": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_wait_spot": {"get": {"result": true}},"id_mode": {"get": {"result": true},"post": {"post": true}},"id_visit": {"get": {"result": true},"post": {"post": true}},"id_visit_from": {"post": {"post": true,"error": true}},"is_charge_fee": {"post": {"get": true}},"is_event": {"get": {"result": true}},"is_mail": {"post": {"post": true}},"is_push": {"post": {"post": true}},"is_request": {"get": {"result": true}},"is_sms": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_class": {"get": {"result": true}},"k_class_period": {"get": {"result": true}},"k_location": {"get": {"result": true}},"k_mail_pattern_live": {"post": {"get": true}},"k_service": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"k_timezone": {"get": {"get": true}},"k_visit": {"get": {"get": true},"post": {"get": true}},"s_calendar_file_content": {"get": {"result": true}},"text_abbr_timezone": {"get": {"result": true}},"text_location": {"get": {"result": true}},"text_reason": {"post": {"get": true}},"text_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}}}};
+  return {"a_field": {"a_resource": {"get": {"result": true}},"a_resource_alias": {"get": {"result": true}},"a_staff": {"get": {"result": true}},"dt_date": {"get": {"result": true}},"dtl_date": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_wait_spot": {"get": {"result": true}},"id_mode": {"get": {"result": true},"post": {"post": true}},"id_visit": {"get": {"result": true},"post": {"post": true}},"id_visit_from": {"post": {"post": true,"error": true}},"is_charge_fee": {"post": {"get": true}},"is_event": {"get": {"result": true}},"is_mail": {"post": {"post": true}},"is_push": {"post": {"post": true}},"is_request": {"get": {"result": true}},"is_sms": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_class": {"get": {"result": true}},"k_class_period": {"get": {"result": true}},"k_location": {"get": {"result": true}},"k_mail_pattern_live": {"post": {"get": true}},"k_service": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"k_timezone": {"get": {"get": true}},"k_visit": {"get": {"get": true},"post": {"get": true}},"s_calendar_file_content": {"get": {"result": true}},"text_abbr_timezone": {"get": {"result": true}},"text_location": {"get": {"result": true}},"text_reason": {"post": {"get": true}},"text_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}},"uid": {"get": {"result": true}}}};
 };
