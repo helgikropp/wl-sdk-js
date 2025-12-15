@@ -414,7 +414,7 @@ function Wl_Book_Process_Payment_PaymentModel()
 
   /**
    * @typedef {{}} Wl_Book_Process_Payment_PaymentModel_a_resource
-   * @property {number} i_index The number of asset(s). The actual number is returned for assets with a quantity greater than ``.
+   * @property {number} i_index The number of asset(s). The actual number is returned for assets with a quantity greater than `1`.
    * @property {string} k_resource The key of the asset.
    */
 

@@ -113,10 +113,10 @@ function Wl_Book_Process_Resource_ResourceModel()
    *   The field structure is `[k_class_period][dtu_session]['a_available']`.
    *   Contains indexes of resource available for each session.
    * @property {{}} a_image Asset image data. See {@link RsResourceImage::data()} for details.
-   * @property {number} i_index The asset number. Actual for assets with a quantity more than ``.
+   * @property {number} i_index The asset number. Actual for assets with a quantity more than `1`.
    * @property {number} i_quantity Total number of the asset spots.
    * @property {number} i_use Number of already used asset units.
-   * @property {boolean} is_current `` means that this asset is selected by client, `` - otherwise.
+   * @property {boolean} is_current `true` means that this asset is selected by client, `false` - otherwise.
    * @property {string} k_resource The key of the asset in database.
    * @property {string} s_resource The title of the asset.
    */
@@ -125,7 +125,7 @@ function Wl_Book_Process_Resource_ResourceModel()
    * @property {{}} a_client A list of clients who have already occupied assets for this session.
    * 1st level keys - asset keys; 2nd level keys - asset number.
    * For example, if you want to check if 10th asset with key '125' is free,
-   * you have to check if `` is empty.
+   * you have to check if `a_client['125']['10']` is empty.
    * @property {Wl_Book_Process_Resource_ResourceModel_a_resource_all_a_resource_list[]} a_resource_list A list of available assets. Every element has next keys:
    * <dl>
    *   <dt>
@@ -146,7 +146,7 @@ function Wl_Book_Process_Resource_ResourceModel()
    *     int <tt>i_index</tt>
    *   </dt>
    *   <dd>
-   *     The asset number. Actual for assets with a quantity more than ``.
+   *     The asset number. Actual for assets with a quantity more than `1`.
    *   </dd>
    *   <dt>
    *     int `i_quantity`
@@ -160,7 +160,7 @@ function Wl_Book_Process_Resource_ResourceModel()
    *     bool <tt>is_current</tt>
    *   </dt>
    *   <dd>
-   *     `` means that this asset is selected by client, `` - otherwise.
+   *     `true` means that this asset is selected by client, `false` - otherwise.
    *   </dd>
    *   <dt>
    *     string <tt>k_resource</tt>
@@ -175,11 +175,11 @@ function Wl_Book_Process_Resource_ResourceModel()
    *     The title of the asset.
    *   </dd>
    * </dl>
-   * @property {boolean} has_current `` - has current resource in the list of available assets; `` - otherwise.
-   * @property {boolean} is_client_select `` - the client selected the resource from the current group; `` otherwise.
-   * @property {boolean} is_select `` - has selected resources; `` - otherwise.
-   * @property {boolean} is_share `` resources in this category don't belong to certain users, but to the entire session.
-   * `` belong to specific users.
+   * @property {boolean} has_current `true` - has current resource in the list of available assets; `false` - otherwise.
+   * @property {boolean} is_client_select `true` - the client selected the resource from the current group; `false` otherwise.
+   * @property {boolean} is_select `true` - has selected resources; `false` - otherwise.
+   * @property {boolean} is_share `true` resources in this category don't belong to certain users, but to the entire session.
+   * `false` belong to specific users.
    * @property {string} k_resource_layout The key of the asset layout.
    * @property {string} k_resource_type The key of the asset category.
    * @property {string} s_resource_type The title of the asset category.
@@ -303,7 +303,7 @@ function Wl_Book_Process_Resource_ResourceModel()
 
   /**
    * @typedef {{}} Wl_Book_Process_Resource_ResourceModel_a_resource_select
-   * @property {number} i_index The asset number. Applies only for assets with a quantity greater than ``.
+   * @property {number} i_index The asset number. Applies only for assets with a quantity greater than `1`.
    * @property {string} k_resource The asset key.
    */
 
