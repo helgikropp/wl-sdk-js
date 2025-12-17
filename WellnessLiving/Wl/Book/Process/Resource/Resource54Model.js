@@ -109,36 +109,191 @@ function Wl_Book_Process_Resource_Resource54Model()
   /**
    * @typedef {{}} Wl_Book_Process_Resource_Resource54Model_a_resource_all_a_resource_list
    * @property {{}} a_class_period List of resources available for booking sessions.
-   * 1st level keys - class period keys; 2nd level keys - date/time of the session in MySQL format and in GMT.
+   *   The field structure is `[k_class_period][dtu_session]['a_available']`.
+   *   Contains indexes of resource available for each session.
    * @property {{}} a_image Asset image data. See {@link RsResourceImage::data()} for details.
-   * @property {number} i_index The asset number. Actual for assets with a quantity more than <tt>1</tt>.
-   * @property {number} i_quantity Total quantity of asset.
-   * @property {number} i_use Quantity of already booked assets.
-   * @property {boolean} is_current <tt>true</tt> means that this asset is selected by client, <tt>false</tt> - otherwise.
+   * @property {number} i_index The asset number. Actual for assets with a quantity more than `1`.
+   * @property {number} i_quantity Total number of the asset spots.
+   * @property {number} i_use Number of already used asset units.
+   * @property {boolean} is_current `true` means that this asset is selected by client, `false` - otherwise.
    * @property {string} k_resource The key of the asset in database.
    * @property {string} s_resource The title of the asset.
-   * @property {string} url_icon URL of asser's icon1.
    */
   /**
    * @typedef {{}} Wl_Book_Process_Resource_Resource54Model_a_resource_all
    * @property {{}} a_client A list of clients who have already occupied assets for this session.
    * 1st level keys - asset keys; 2nd level keys - asset number.
    * For example, if you want to check if 10th asset with key '125' is free,
-   * you have to check if <tt>a_client['125']['10']</tt> is empty.
-   * @property {string[]} a_resource_available List of available resource keys.
-   * @property {Wl_Book_Process_Resource_ResourceModel_a_resource_all_a_resource_list[]} a_resource_list A list of available assets.
-   * @property {boolean} has_current <tt>true</tt> - has current resource in the list of available assets; <tt>false</tt> - otherwise.
-   * @property {boolean} is_client_select <tt>true</tt> - the client selected the resource from the current group; <tt>false</tt> otherwise.
-   * @property {boolean} is_select <tt>true</tt> - has selected resources; <tt>false</tt> - otherwise.
-   * @property {boolean} is_share <tt>true</tt> resources in this category don't belong to certain users, but to the entire session.
-   * <tt>false</tt> belong to specific users.
+   * you have to check if `a_client['125']['10']` is empty.
+   * @property {Wl_Book_Process_Resource_Resource54Model_a_resource_all_a_resource_list[]} a_resource_list A list of available assets. Every element has next keys:
+   * <dl>
+   *   <dt>
+   *       array `a_class_period`
+   *   </dt>
+   *   <dd>
+   *       List of resources available for booking sessions.
+   *       The field structure is `[k_class_period][dtu_session]['a_available']`.
+   *       Contains indexes of resource available for each session.
+   *   </dd>
+   *   <dt>
+   *     array <tt>a_image</tt>
+   *   </dt>
+   *   <dd>
+   *     Asset image data. See {@link RsResourceImage::data()} for details.
+   *   </dd>
+   *   <dt>
+   *     int <tt>i_index</tt>
+   *   </dt>
+   *   <dd>
+   *     The asset number. Actual for assets with a quantity more than `1`.
+   *   </dd>
+   *   <dt>
+   *     int `i_quantity`
+   *   </dt>
+   *   <dd>
+   *     Total number of the asset spots.
+   *   </dd>
+   *   <dt>int `i_use`</dt>
+   *   <dd>Number of already used asset units.</dd>
+   *   <dt>
+   *     bool <tt>is_current</tt>
+   *   </dt>
+   *   <dd>
+   *     `true` means that this asset is selected by client, `false` - otherwise.
+   *   </dd>
+   *   <dt>
+   *     string <tt>k_resource</tt>
+   *   </dt>
+   *   <dd>
+   *     The key of the asset in database.
+   *   </dd>
+   *   <dt>
+   *     string <tt>s_resource</tt>
+   *   </dt>
+   *   <dd>
+   *     The title of the asset.
+   *   </dd>
+   * </dl>
+   * @property {boolean} has_current `true` - has current resource in the list of available assets; `false` - otherwise.
+   * @property {boolean} is_client_select `true` - the client selected the resource from the current group; `false` otherwise.
+   * @property {boolean} is_select `true` - has selected resources; `false` - otherwise.
+   * @property {boolean} is_share `true` resources in this category don't belong to certain users, but to the entire session.
+   * `false` belong to specific users.
    * @property {string} k_resource_layout The key of the asset layout.
    * @property {string} k_resource_type The key of the asset category.
    * @property {string} s_resource_type The title of the asset category.
    */
 
   /**
-   * A list of asset categories which are available for specified session.
+   * A list of asset categories which are available for specified session. Every element has next keys:
+   * <dl>
+   *   <dt>
+   *     array <var>a_client</var>
+   *   </dt>
+   *   <dd>
+   *     A list of clients who have already occupied assets for this session.
+   *     1st level keys - asset keys; 2nd level keys - asset number.
+   *     For example, if you want to check if 10th asset with key '125' is free,
+   *     you have to check if <tt>a_client['125']['10']</tt> is empty.
+   *   </dd>
+   *   <dt>
+   *     array[] <var>a_resource_list</var>
+   *   </dt>
+   *   <dd>
+   *     A list of available assets. Every element has next keys:
+   *     <dl>
+   *       <dt>
+   *           array `a_class_period`
+   *       </dt>
+   *       <dd>
+   *           List of resources available for booking sessions.
+   *           The field structure is `[k_class_period][dtu_session]['a_available']`.
+   *           Contains indexes of resource available for each session.
+   *       </dd>
+   *       <dt>
+   *         array <var>a_image</var>
+   *       </dt>
+   *       <dd>
+   *         Asset image data. See {@link RsResourceImage::data()} for details.
+   *       </dd>
+   *       <dt>
+   *         int <var>i_index</var>
+   *       </dt>
+   *       <dd>
+   *         The asset number. Actual for assets with a quantity more than <tt>1</tt>.
+   *       </dd>
+   *       <dt>
+   *         int `i_quantity`
+   *       </dt>
+   *       <dd>
+   *         Total number of the asset spots.
+   *       </dd>
+   *       <dt>int `i_use`</dt>
+   *       <dd>Number of already used asset units.</dd>
+   *       <dt>
+   *         bool <var>is_current</var>
+   *       </dt>
+   *       <dd>
+   *         <tt>true</tt> means that this asset is selected by client, <tt>false</tt> - otherwise.
+   *       </dd>
+   *       <dt>
+   *         string <var>k_resource</var>
+   *       </dt>
+   *       <dd>
+   *         The key of the asset in database.
+   *       </dd>
+   *       <dt>
+   *         string <var>s_resource</var>
+   *       </dt>
+   *       <dd>
+   *         The title of the asset.
+   *       </dd>
+   *     </dl>
+   *   </dd>
+   *   <dt>
+   *     bool <var>has_current</var>
+   *   </dt>
+   *   <dd>
+   *     <tt>true</tt> - has current resource in the list of available assets; <tt>false</tt> - otherwise.
+   *   </dd>
+   *   <dt>
+   *     bool <var>is_client_select</var>
+   *   </dt>
+   *   <dd>
+   *     <tt>true</tt> - the client selected the resource from the current group; <tt>false</tt> otherwise.
+   *   </dd>
+   *   <dt>
+   *     bool <var>is_select</var>
+   *   </dt>
+   *   <dd>
+   *     <tt>true</tt> - has selected resources; <tt>false</tt> - otherwise.
+   *   </dd>
+   *   <dt>
+   *     bool <var>is_share</var>
+   *   </dt>
+   *   <dd>
+   *     <tt>true</tt> resources in this category don't belong to certain users, but to the entire session.
+   *     <tt>false</tt> belong to specific users.
+   *   </dd>
+   *   <dt>
+   *     string <var>k_resource_layout</var>
+   *   </dt>
+   *   <dd>
+   *     The key of the asset layout.
+   *   </dd>
+   *   <dt>
+   *     string <var>k_resource_type</var>
+   *   </dt>
+   *   <dd>
+   *     The key of the asset category.
+   *   </dd>
+   *   <dt>
+   *     string <var>s_resource_type</var>
+   *   </dt>
+   *   <dd>
+   *     The title of the asset category.
+   *   </dd>
+   * </dl>
    *
    * @get result
    * @type {Wl_Book_Process_Resource_Resource54Model_a_resource_all[]}
@@ -147,15 +302,21 @@ function Wl_Book_Process_Resource_Resource54Model()
 
   /**
    * @typedef {{}} Wl_Book_Process_Resource_Resource54Model_a_resource_select
-   * @property {number} i_index The asset number. Applies only for assets with a quantity greater than <tt>1</tt>.
+   * @property {number} i_index The asset number. Applies only for assets with a quantity greater than `1`.
    * @property {string} k_resource The asset key.
    */
 
   /**
-   * The selected assets.
+   * The selected assets. Every element has the next keys:
+   * <dl>
+   *   <dt>int <var>i_index</var></dt>
+   *   <dd>The asset number. Applies only for assets with a quantity greater than <tt>1</tt>.</dd>
+   *   <dt>string <var>k_resource</var></dt>
+   *   <dd>The asset key.</dd>
+   * </dl>
    *
    * @post post
-   * @type {Wl_Book_Process_Resource_Resource54Model_a_resource_select[]}
+   * @type {Wl_Book_Process_Resource_Resource54Model_a_resource_select}
    */
   this.a_resource_select = [];
 
@@ -220,11 +381,23 @@ function Wl_Book_Process_Resource_Resource54Model()
   this.id_mode = 0;
 
   /**
-   * `true` if book unpaid.
+   * `true` if action is performed as a staff member; `false` otherwise.
+   *
+   * If `true` is sent, access to the business and to the client will be checked.
+   * If `false` is sent, user can book only for himself or for relatives if this is allowed in business settings.
+   *
+   * @get get
+   * @post get
+   * @type {boolean}
+   */
+  this.is_backend = false;
+
+  /**
+   * `true` to book unpaid.
    * `false` otherwise.
    *
-   * Allows to book unpaid when client have a login promotion that can be used to pay for the service.
-   * Allowed in {@link Wl_Book_Process_ModeSid.WIDGET} mode only.
+   * Allows booking unpaid when client has a login promotion that can be used to pay for the service.
+   * Allowed in {@link Wl_Mode_ModeSid.WIDGET} mode only.
    *
    * @post post
    * @type {boolean}
@@ -235,7 +408,7 @@ function Wl_Book_Process_Resource_Resource54Model()
    * Checking whether the client has a credit card (if configured in the business) will be skipped if this flag is set to `false`.
    *
    * Use this field with caution.
-   * The final booking will not use this flag and the check will still be performed.
+   * The final booking will not use this flag, and the check will still be performed.
    *
    * @get get
    * @post get
@@ -311,7 +484,7 @@ function Wl_Book_Process_Resource_Resource54Model()
   this.show_relation = false;
 
   /**
-   * Key of a user who is making a book.
+   * The client key for which the booking is being made.
    *
    * @get get
    * @post get
@@ -329,7 +502,7 @@ WlSdk_ModelAbstract.extend(Wl_Book_Process_Resource_Resource54Model);
  */
 Wl_Book_Process_Resource_Resource54Model.prototype.config=function()
 {
-  return {"a_field": {"a_login_activity": {"post": {"result": true}},"a_repeat": {"post": {"post": true}},"a_resource_all": {"get": {"result": true}},"a_resource_select": {"post": {"post": true}},"a_session": {"get": {"get": true},"post": {"get": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"a_visit": {"post": {"result": true}},"can_book": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"is_next": {"post": {"result": true}},"json_session": {"get": {"get": true},"post": {"get": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_login_promotion": {"post": {"post": true}},"k_session_pass": {"post": {"post": true}},"show_relation": {"get": {"get": true},"post": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_login_activity": {"post": {"result": true}},"a_repeat": {"post": {"post": true}},"a_resource_all": {"get": {"result": true}},"a_resource_select": {"post": {"post": true}},"a_session": {"get": {"get": true},"post": {"get": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"a_visit": {"post": {"result": true}},"can_book": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"is_next": {"post": {"result": true}},"json_session": {"get": {"get": true},"post": {"get": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_login_promotion": {"post": {"post": true}},"k_session_pass": {"post": {"post": true}},"show_relation": {"get": {"get": true},"post": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
 };
 
 /**
@@ -337,7 +510,7 @@ Wl_Book_Process_Resource_Resource54Model.prototype.config=function()
  * @name Wl_Book_Process_Resource_Resource54Model.instanceGet
  * @param {string} k_class_period Key of session which is booked.
  * @param {string} dt_date_gmt Date/time to which session is booked.
- * @param {string} uid Key of a user who is making a book.
+ * @param {string} uid The client key for which the booking is being made.
  * @param {string} json_session Selected sessions. Not empty only for session mode. Fields - IDs of sessions in database. Values - arrays of date/time when session is occurred. In MySQL format. In GMT. Serialized with JSON.
  * @param {number} id_mode The mode type. One of the {@link Wl_Mode_ModeSid} constants.
  * @returns {Wl_Book_Process_Resource_Resource54Model}

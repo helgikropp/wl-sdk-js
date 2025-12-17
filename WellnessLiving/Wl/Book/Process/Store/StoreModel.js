@@ -38,12 +38,12 @@ function Wl_Book_Process_Store_StoreModel()
    * being purchased.
    *
    * <dl>
-   *   <dt>int <var>i_session</var></dt>
+   *   <dt>int `i_session`</dt>
    *   <dd>
    *       The number of sessions that this item can cover.
    *       This only applies to items of type {@link Wl_Purchase_Item_ItemSid.CLASS_PERIOD}.
    *   </dd>
-   *   <dt>int <var>s_value</var></dt>
+   *   <dt>int `s_value`</dt>
    *   <dd>
    *     The unique identifier of the item being checked.
    *     This corresponds to one of the following values:
@@ -169,7 +169,7 @@ function Wl_Book_Process_Store_StoreModel()
    * The value is an indexed array of dates and times when the session occurred (in MySQL format, UTC).
    *
    * @post post
-   * @type {{}}
+   * @type {string[][]}
    */
   this.a_session_select = [];
 
@@ -180,7 +180,7 @@ function Wl_Book_Process_Store_StoreModel()
    * The value is an indexed array of dates and times when the session occurred (in MySQL format, UTC).
    *
    * @post post
-   * @type {{}}
+   * @type {string[][]}
    */
   this.a_session_wait_list_unpaid = [];
 
@@ -227,7 +227,7 @@ function Wl_Book_Process_Store_StoreModel()
    *
    * @get get
    * @post get
-   * @type {boolean|number}
+   * @type {boolean}
    */
   this.is_backend = false;
 
