@@ -27,6 +27,7 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    *  * Installment is a division of the final amount (with taxes and discounts), of some purchase option, into N parts.
    * @property {string} [k_reward_prize] The key of the reward prize.
    *  Not empty only if the user wants to redeem prize and use it to pay for a visit.
+   * @property {string} uid The key of the user for whom the purchase item is being bought.
    */
 
   /**
@@ -57,6 +58,8 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    *      <dt>string [`k_reward_prize`]</dt>
    *      <dd>The key of the reward prize.
    *      Not empty only if the user wants to redeem prize and use it to pay for a visit.</dd>
+   *      <dt>string `uid`</dt>
+   *      <dd>The key of the user for whom the purchase item is being bought.</dd>
    *  </dl>
    *
    * @get get
