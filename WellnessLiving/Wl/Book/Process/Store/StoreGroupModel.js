@@ -1,5 +1,6 @@
 /**
- * Performs preliminary checks and distribution of selected purchase options among clients.
+ * Performs preliminary checks and distribution of selected purchase options between the client who is currently logged
+ * in and his relatives.
  *
  * This model is generated automatically based on API.
  *
@@ -184,7 +185,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *   * Value - index arrays of dates/times when the session occurred (MySQL format; UTC).
    *
    * @post post
-   * @type {string[][]}
+   * @type {string[][][]}
    */
   this.a_session_select = [];
 
@@ -197,7 +198,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *   * Value - index arrays of dates/times when the session occurred (MySQL format; UTC).
    *
    * @post post
-   * @type {string[][]}
+   * @type {string[][][]}
    */
   this.a_session_wait_list_unpaid = [];
 
@@ -273,15 +274,6 @@ function Wl_Book_Process_Store_StoreGroupModel()
    */
   this.k_class_period = "0";
 
-  /**
-   * The client key for which the booking is being made.
-   *
-   * @get get
-   * @post get
-   * @type {string}
-   */
-  this.uid = "0";
-
   this.changeInit();
 }
 
@@ -292,5 +284,5 @@ WlSdk_ModelAbstract.extend(Wl_Book_Process_Store_StoreGroupModel);
  */
 Wl_Book_Process_Store_StoreGroupModel.prototype.config=function()
 {
-  return {"a_field": {"a_login_promotion": {"post": {"post": true}},"a_purchase_item_check": {"post": {"post": true}},"a_purchase_item_distribute": {"post": {"result": true}},"a_resource": {"post": {"post": true}},"a_session_pass": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_login_promotion": {"post": {"post": true}},"a_purchase_item_check": {"post": {"post": true}},"a_purchase_item_distribute": {"post": {"result": true}},"a_resource": {"post": {"post": true}},"a_session_pass": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}}}};
 };
