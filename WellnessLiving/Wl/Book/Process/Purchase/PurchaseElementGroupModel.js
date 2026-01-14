@@ -14,7 +14,6 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    *      Make sense only when `id_purchase_item` = {@link Wl_Purchase_Item_ItemSid.CLASS_PERIOD}.
    * @property {number} id_purchase_item The ID of the purchase item type. One of {@link Wl_Purchase_Item_ItemSid}.
    * @property {string} k_id The key of the purchase item in the database.
-   * @property {string} k_location The key of the location in which the purchase will be made.
    * @property {string} [k_login_prize] The key of the user's prize.
    *  Not empty only if the user wants to make a free visit from the prize.
    * @property {?string} [k_pay_installment_template] Installment template key.
@@ -43,8 +42,6 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    *      <dd>The ID of the purchase item type.</dd>
    *      <dt>string `k_id`</dt>
    *      <dd>The key of the purchase item in the database.</dd>
-   *      <dt>string `k_location`</dt>
-   *      <dd>The key of the location in which the purchase will be made.</dd>
    *      <dt>string [`k_login_prize`]</dt>
    *      <dd>The key of the user's prize.
    *      Not empty only if the user wants to make a free visit from the prize.</dd>
@@ -94,7 +91,8 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    * The key of the location in which the purchase is made.
    * This is also the booking process location.
    *
-   * @deprecated Use `k_location` in each item of `a_purchase_item` instead.
+   * In case of {@link Wl_Purchase_Item_ItemSid.CLASS_PERIOD} purchase item, the location of the class period is used.
+   *
    * @get get
    * @type {string}
    */
