@@ -206,7 +206,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    * Should be `null` if the booking isn't recurring.
    *
    * @post post
-   * @type {?Wl_Book_Process_Store_StoreGroupModel_a_repeat}
+   * @type {?Wl_Book_Process_Store_StoreGroupModel_a_repeat[]}
    */
   this.a_repeat = null;
 
