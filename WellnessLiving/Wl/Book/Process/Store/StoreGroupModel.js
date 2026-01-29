@@ -71,7 +71,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
   /**
    * @typedef {{}} Wl_Book_Process_Store_StoreGroupModel_a_purchase_item_distribute
    * @property {{}} a_owner List of UIDs of owners who will share this promotion with this client.
-   *   Each UID is a primary key in the {@link \PassportLoginSql} table.
+   *   Each UID is a primary key.
    *   If empty, this client is the owner of the promotion.
    * @property {number} i_session The number of sessions that this item can cover.
    *   The same as in {@link Wl_Book_Process_Store_StoreGroupModel.a_purchase_item_check}.
@@ -98,7 +98,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
    *   <dt>array `a_owner`</dt>
    *   <dd>
    *       List of UIDs of owners who will share this promotion with this client.
-   *       Each UID is a primary key in the {@link \PassportLoginSql} table.
+   *       Each UID is a primary key.
    *       If empty, this client is the owner of the promotion.
    *   </dd>
    *   <dt>int `i_session`</dt>
@@ -139,6 +139,76 @@ function Wl_Book_Process_Store_StoreGroupModel()
    * @type {Wl_Book_Process_Store_StoreGroupModel_a_purchase_item_distribute[]}
    */
   this.a_purchase_item_distribute = [];
+
+  /**
+   * @typedef {{}} Wl_Book_Process_Store_StoreGroupModel_a_repeat
+   * @property {number[]} a_day The days of week when the appointment repeat.One of the {@link ADateWeekSid} constants.
+   * Should be passed for any type of repetition.
+   * @property {string} [dt_from] Date to start recurring booking.
+   * Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   * @property {string} [dt_to] Date to complete recurring booking.
+   * Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   * @property {number} [i_count] The number of occurrences after which the appointment's repeat cycle stops.
+   * Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
+   * Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
+   * @property {number} i_duration Count of days\weeks\months between recurring bookings.
+   * @property {number} id_duration The measurement unit of `i_period`. One of the {@link ADurationSid} constants.
+   * Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
+   * @property {number} id_repeat_end Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.
+   */
+
+  /**
+   * Information about the recurring booking for each client in the group.
+   *
+   * * Key - UID of the client.
+   * * Value - an array with information about the recurring booking:
+   * <dl>
+   *   <dt>int[] <var>a_day</var></dt>
+   *   <dd>
+   *     The days of week when the appointment repeat.One of the {@link ADateWeekSid} constants.
+   *     Should be passed for any type of repetition.
+   *   </dd>
+   *   <dt>
+   *     string [<var>dt_from</var>]
+   *   </dt>
+   *   <dd>
+   *     Date to start recurring booking.
+   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   *   </dd>
+   *   <dt>
+   *     string [<var>dt_to</var>]
+   *   </dt>
+   *   <dd>
+   *     Date to complete recurring booking.
+   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   *   </dd>
+   *   <dt>
+   *     int [<var>i_count</var>]
+   *   </dt>
+   *   <dd>
+   *     The number of occurrences after which the appointment's repeat cycle stops.
+   *     Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
+   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
+   *   </dd>
+   *   <dt>int <var>i_duration</var></dt>
+   *   <dd>Count of days\weeks\months between recurring bookings.</dd>
+   *   <dt>
+   *     int <var>id_duration</var>
+   *   </dt>
+   *   <dd>
+   *     The measurement unit of `i_period`. One of the {@link ADurationSid} constants.
+   *     Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
+   *   </dd>
+   *   <dt>int <var>id_repeat_end</var></dt>
+   *   <dd>Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.</dd>
+   * </dl>
+   *
+   * Should be `null` if the booking isn't recurring.
+   *
+   * @post post
+   * @type {?Wl_Book_Process_Store_StoreGroupModel_a_repeat[]}
+   */
+  this.a_repeat = null;
 
   /**
    * @typedef {{}} Wl_Book_Process_Store_StoreGroupModel_a_resource
@@ -212,7 +282,7 @@ function Wl_Book_Process_Store_StoreGroupModel()
   this.dt_date_gmt = "";
 
   /**
-   * The mode type. One of the {@link Wl_Book_Process_Store_ModeSid} constants.
+   * The mode type. One of the {@link Wl_Mode_ModeSid} constants.
    *
    * @get get
    * @post get
@@ -272,5 +342,5 @@ WlSdk_ModelAbstract.extend(Wl_Book_Process_Store_StoreGroupModel);
  */
 Wl_Book_Process_Store_StoreGroupModel.prototype.config=function()
 {
-  return {"a_field": {"a_login_promotion": {"post": {"post": true}},"a_purchase_item_check": {"post": {"post": true}},"a_purchase_item_distribute": {"post": {"result": true}},"a_resource": {"post": {"post": true}},"a_session_pass": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_login_promotion": {"post": {"post": true}},"a_purchase_item_check": {"post": {"post": true}},"a_purchase_item_distribute": {"post": {"result": true}},"a_repeat": {"post": {"post": true}},"a_resource": {"post": {"post": true}},"a_session_pass": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}}}};
 };
