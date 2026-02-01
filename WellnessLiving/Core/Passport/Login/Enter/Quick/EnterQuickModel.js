@@ -56,15 +56,3 @@ Core_Passport_Login_Enter_Quick_EnterQuickModel.prototype.config=function()
 {
     return {"a_field": {"a_data": {"get": {"get": true}},"uid": {"get": {"get": true}},"url_enter": {"get": {"result": true}},"url_redirect": {"get": {"get": true}}}};
 };
-
-/**
- * @typedef Core_Passport_Login_Enter_Quick_EnterQuickModel_GetResponse
- * @type {object}
- * @property {string} url_enter Protected link to sign in.
- */
-
-/**
- * @function
- * @name Core_Passport_Login_Enter_Quick_EnterQuickModel.get
- * @returns {Promise<Core_Passport_Login_Enter_Quick_EnterQuickModel_GetResponse>} Response from this request
- */
