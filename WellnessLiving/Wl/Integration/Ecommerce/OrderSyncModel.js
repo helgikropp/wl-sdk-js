@@ -1,7 +1,9 @@
 /**
  * Endpoint that allows external ecommerce or POS systems to sync orders into WellnessLiving.
  *
- * This model is generated automatically based on API.
+ * This model is not public. If you need to use it, please contact WellnessLiving support.
+ *
+ * If you need a public payment model, please use {@link Wl_Catalog_Payment_PaymentModel}.
  *
  * @augments WlSdk_ModelAbstract
  * @constructor
