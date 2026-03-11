@@ -95,7 +95,7 @@ function WlSdk_Deferred()
  */
 WlSdk_Deferred._deferIs = function(x_var)
 {
-  if(typeof x_var !== 'object' && typeof x_var.state !== 'function')
+  if(typeof x_var !== 'object' || x_var === null || typeof x_var.state !== 'function')
     return false;
 
   const s_state = x_var.state();
