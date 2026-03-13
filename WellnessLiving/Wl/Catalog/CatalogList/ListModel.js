@@ -19,7 +19,9 @@ function Wl_Catalog_CatalogList_ListModel()
    * @typedef {{}} Wl_Catalog_CatalogList_ListModel_a_direct_link
    * @property {number} id_sale Type of the item from {@link RsSaleSid}.
    * @property {string} k_id Key of item.
-   * @property {string=} sid_type Type of product key from {@link \Wl\Catalog\CatalogList\ProductKeyTypeSid}. Optional.   */
+   * @property {boolean=} is_option `true` if `k_id` value is product option key, `false` if `k_id` value is product key.
+   *    Optional. Default value is `false`. Used for `id_sale` == {@link RsSaleSid.PRODUCT} only.
+   */
 
   /**
    * Arguments from direct purchase link, which can give additional access to products, which are available
