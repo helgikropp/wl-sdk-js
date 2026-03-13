@@ -1,5 +1,5 @@
 /**
- * An endpoint that gets information about a specified class session.
+ * Gets information about a specified class session.
  *
  * A class listing can be retrieved from the {@link Wl_Schedule_ClassList_ClassListModel} endpoint.
  *
@@ -31,9 +31,10 @@ function Wl_Schedule_ClassView_ClassViewModel()
    * @property {number} i_height The image height.
    * @property {number} i_width The image width.
    * @property {boolean} is_empty This will be `true` if there's no image and a default is used.
-   * @property {boolean|null} is_own This field will be `true` if the image used for the class is an image uploaded in class setup. If the image is
-   * not uploaded in the class setup, but there is at least one image in Setup->Locations image slider,
-   * this field will be `false`. `null` if class image is not uploaded, and there are no images in location slider, in this case empty image is used.
+   * @property {?boolean} is_own This field will be `true` if the image used for the class is an image uploaded in class setup. If the image is
+   * not uploaded in the class setup, but there is at least one image in Setup-&gt;Locations image slider,
+   * this field will be `false`. `null` if class image is not uploaded, and there are no images in location slider,
+   * in this case empty image is used.
    * @property {string} s_url The URL link to the image.
    */
   /**
@@ -45,9 +46,9 @@ function Wl_Schedule_ClassView_ClassViewModel()
    * <dd>The image width.</dd>
    * <dt>bool <tt>is_empty</tt></dt>
    * <dd>This will be `true` if there's no image and a default is used.</dd>
-   * <dt>bool|null <var>is_own</var></dt>
+   * <dt>bool|null <tt>is_own</tt></dt>
    * <dd>This field will be `true` if the image used for the class is an image uploaded in class setup. If the image is
-   * not uploaded in the class setup, but there is at least one image in Setup->Locations image slider,
+   * not uploaded in the class setup, but there is at least one image in Setup-&gt;Locations image slider,
    * this field will be `false`. `null` if class image is not uploaded, and there are no images in location slider,
    * in this case empty image is used.</dd>
    * <dt>string <tt>s_url</tt></dt>
@@ -66,13 +67,15 @@ function Wl_Schedule_ClassView_ClassViewModel()
    * @property {number} i_book The count of booked visits.
    * @property {number} i_capacity The class capacity.
    * @property {number} i_duration The class duration in minutes.
+   * @property {number} id_deny_reason ID of denying reason. One of {@link Wl_Schedule_ClassView_DenyReasonSid} constants.
    * @property {boolean} is_book This will be `true` if the current class was booked by the current client.
    * @property {boolean} is_cancel This will be `true` if the class period was canceled. Otherwise, this will be `false`.
    * @property {boolean} is_promotion_only This will be `true` if this class can only be paid for using a Purchase Option. Otherwise, this will be `false`.
    * @property {boolean} is_wait_list This will be `true` if user is only on the wait list. Otherwise, this will be `false`.
    * @property {boolean} is_wait_list_enabled This will be `true` if the wait list is enabled for this class. Otherwise, this will be `false`.
    * @property {string} m_price The session price.
-   * @property {string} s_duration The class duration in a human readable format.
+   * @property {boolean} hide_price Hide individual price of the class session, if client has applicable pricing option.
+   * @property {string} s_duration The class duration in a human-readable format.
    * @property {string} s_title The class name.
    * @property {string} text_room The class room.
    */
@@ -90,7 +93,7 @@ function Wl_Schedule_ClassView_ClassViewModel()
    *     <dd>This will be `true` if there's no image and a default is used.</dd>
    *     <dt>bool|null <var>is_own</var></dt>
    *     <dd>This field will be `true` if the image used for the class is an image uploaded in class setup. If the image is
-   *     not uploaded in the class setup, but there is at least one image in Setup->Locations image slider,
+   *     not uploaded in the class setup, but there is at least one image in Setup-&gt;Locations image slider,
    *     this field will be `false`. `null` if class image is not uploaded, and there are no images in location slider,
    *     in this case empty image is used.</dd>
    *     <dt>string <var>s_url</var></dt>
@@ -122,11 +125,11 @@ function Wl_Schedule_ClassView_ClassViewModel()
    *   <dt>int <var>i_duration</var></dt>
    *   <dd>The class duration in minutes.</dd>
    *   <dt>
-   *      int <var>id_deny_reason</var>
-   *    </dt>
-   *    <dd>
-   *      ID of deny reason. One of {@link \Wl\Schedule\ClassView\DenyReasonSid} constants.
-   *    </dd>
+   *     int <var>id_deny_reason</var>
+   *   </dt>
+   *   <dd>
+   *     ID of denying reason. One of {@link Wl_Schedule_ClassView_DenyReasonSid} constants.
+   *   </dd>
    *   <dt>bool <var>is_book</var></dt>
    *   <dd>This will be `true` if the current class was booked by the current client.</dd>
    *   <dt>bool <var>is_cancel</var></dt>
@@ -139,8 +142,10 @@ function Wl_Schedule_ClassView_ClassViewModel()
    *   <dd>This will be `true` if the wait list is enabled for this class. Otherwise, this will be `false`.</dd>
    *   <dt>string <var>m_price</var></dt>
    *   <dd>The session price.</dd>
+   *   <dt>bool <var>hide_price</var></dt>
+   *   <dd>Hide individual price of the class session, if client has applicable pricing option.</dd>
    *   <dt>string <var>s_duration</var></dt>
-   *   <dd>The class duration in a human readable format.</dd>
+   *   <dd>The class duration in a human-readable format.</dd>
    *   <dt>string <var>s_title</var></dt>
    *   <dd>The class name.</dd>
    *   <dt>string <var>text_room</var></dt>
@@ -194,6 +199,7 @@ function Wl_Schedule_ClassView_ClassViewModel()
    * @property {{}} a_class Class information.
    * @property {{}} a_location Location information.
    * @property {{}} a_staff Staff member information.
+   * @property {string[]} a_virtual_location List of other locations where virtual class can be booked
    * @property {{}} dt_date The session date/time in UTC.
    * @property {{}} k_class_period The session key.
    */
@@ -208,6 +214,8 @@ function Wl_Schedule_ClassView_ClassViewModel()
    *   <dd>Location information.</dd>
    *   <dt>array <var>a_staff</var></dt>
    *   <dd>Staff member information.</dd>
+   *   <dt>string[] <var>a_virtual_location</var></dt>
+   *   <dd>List of other locations where virtual class can be booked</dd>
    *   <dt>array <var>dt_date</var></dt>
    *   <dd>The session date/time in UTC.</dd>
    *   <dt>array <var>k_class_period</var></dt>
@@ -232,14 +240,14 @@ function Wl_Schedule_ClassView_ClassViewModel()
   this.a_staff = null;
 
   /**
-   * List of other locations where virtual class can be booked. Each value is a key of location.
-   * Empty array if class isn't virtual or can't be booked in other locations. `null` if data isn't loaded yet.
+   * List of other locations where virtual class can be booked. Each value is primary key in {@link \RsLocationSql} table.
+   * Empty array if class isn't virtual or can't be booked in other locations.
    *
    * @get result
    * @post result
-   * @type {?string[]}
+   * @type {{}}
    */
-  this.a_virtual_location = null;
+  this.a_virtual_location = [];
 
   /**
    * @typedef {{}} Wl_Schedule_ClassView_ClassViewModel_a_visits_required
@@ -276,6 +284,19 @@ function Wl_Schedule_ClassView_ClassViewModel()
    * @type {string}
    */
   this.dt_date = "";
+
+  /**
+   * Key of the business in which the action is performed.
+   *
+   * `null` if key of the business was not passed.
+   *
+   * Key of the business is required if {@link Wl_Schedule_ClassView_ClassViewModel} was passed.
+   *
+   * @get get
+   * @post get
+   * @type {?string}
+   */
+  this.k_business = null;
 
   /**
    * The class period key.
@@ -315,7 +336,7 @@ WlSdk_ModelAbstract.extend(Wl_Schedule_ClassView_ClassViewModel);
  */
 Wl_Schedule_ClassView_ClassViewModel.prototype.config=function()
 {
-  return {"a_field": {"a_asset": {"get": {"result": true},"post": {"result": true}},"a_class": {"get": {"result": true},"post": {"result": true}},"a_location": {"get": {"result": true},"post": {"result": true}},"a_session_request": {"get": {"get": true},"post": {"get": true}},"a_session_result": {"get": {"result": true},"post": {"result": true}},"a_staff": {"get": {"result": true},"post": {"result": true}},"a_virtual_location": {"get": {"result": true},"post": {"result": true}},"a_visits_required": {"get": {"result": true}},"dt_date": {"get": {"get": true},"post": {"get": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"s_session_request": {"post": {"post": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_asset": {"get": {"result": true},"post": {"result": true}},"a_class": {"get": {"result": true},"post": {"result": true}},"a_location": {"get": {"result": true},"post": {"result": true}},"a_session_request": {"get": {"get": true},"post": {"get": true}},"a_session_result": {"get": {"result": true},"post": {"result": true}},"a_staff": {"get": {"result": true},"post": {"result": true}},"a_virtual_location": {"get": {"result": true},"post": {"result": true}},"a_visits_required": {"get": {"result": true}},"dt_date": {"get": {"get": true},"post": {"get": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"s_session_request": {"post": {"post": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
 };
 
 /**
