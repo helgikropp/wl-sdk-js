@@ -231,11 +231,23 @@ function Wl_Book_Process_Quiz_QuizModel()
   this.id_mode = 0;
 
   /**
-   * `true` if book unpaid.
+   * `true` if action is performed as a staff member; `false` otherwise.
+   *
+   * If `true` is sent, access to the business and to the client will be checked.
+   * If `false` is sent, user can book only for himself or for relatives if this is allowed in business settings.
+   *
+   * @get get
+   * @post get
+   * @type {boolean}
+   */
+  this.is_backend = false;
+
+  /**
+   * `true` to book unpaid.
    * `false` otherwise.
    *
-   * Allows to book unpaid when client have a login promotion that can be used to pay for the service.
-   * Allowed in {@link Wl_Book_Process_ModeSid.WIDGET} mode only.
+   * Allows booking unpaid when client has a login promotion that can be used to pay for the service.
+   * Allowed in {@link Wl_Mode_ModeSid.WIDGET} mode only.
    *
    * @post post
    * @type {boolean}
@@ -246,7 +258,7 @@ function Wl_Book_Process_Quiz_QuizModel()
    * Checking whether the client has a credit card (if configured in the business) will be skipped if this flag is set to `false`.
    *
    * Use this field with caution.
-   * The final booking will not use this flag and the check will still be performed.
+   * The final booking will not use this flag, and the check will still be performed.
    *
    * @get get
    * @post get
@@ -297,7 +309,16 @@ function Wl_Book_Process_Quiz_QuizModel()
   this.k_session_pass = "";
 
   /**
-   * Key of a user who is making a book.
+   * `true` to show "book for" option in booking wizard. `false` for default behavior.
+   *
+   * @get get
+   * @post get
+   * @type {boolean}
+   */
+  this.show_relation = false;
+
+  /**
+   * The client key for which the booking is being made.
    *
    * @get get
    * @post get
@@ -315,14 +336,14 @@ WlSdk_ModelAbstract.extend(Wl_Book_Process_Quiz_QuizModel);
  */
 Wl_Book_Process_Quiz_QuizModel.prototype.config=function()
 {
-  return {"a_field": {"a_login_activity": {"post": {"result": true}},"a_purchase_item": {"get": {"get": true}},"a_quiz": {"get": {"result": true}},"a_quiz_response": {"post": {"post": true}},"a_repeat": {"post": {"post": true}},"a_resource": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"a_visit": {"post": {"result": true}},"can_book": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"is_next": {"post": {"result": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_login_promotion": {"post": {"post": true}},"k_session_pass": {"post": {"post": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_login_activity": {"post": {"result": true}},"a_purchase_item": {"get": {"get": true}},"a_quiz": {"get": {"result": true}},"a_quiz_response": {"post": {"post": true}},"a_repeat": {"post": {"post": true}},"a_resource": {"post": {"post": true}},"a_session_select": {"post": {"post": true}},"a_session_wait_list_unpaid": {"post": {"post": true}},"a_visit": {"post": {"result": true}},"can_book": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"is_next": {"post": {"result": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_login_promotion": {"post": {"post": true}},"k_session_pass": {"post": {"post": true}},"show_relation": {"get": {"get": true},"post": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
 };
 
 /**
  * @function
  * @name Wl_Book_Process_Quiz_QuizModel.instanceGet
  * @param {string} k_class_period Key of session which is booked.
- * @param {string} uid Key of a user who is making a book.
+ * @param {string} uid The client key for which the booking is being made.
  * @param {string[]} a_purchase_item The list of purchase items. Each element has the format <tt>[id_purchase_item]::[k_id]</tt>, where: <dl> <dt>int <var>id_purchase_item</var></dt> <dd>The ID of the purchase item. One of the {@link RsPurchaseItemSid} constants.</dd> <dt>string <var>k_id</var></dt> <dd>The item key. This depends on <var>id_purchase_item</var> of this array.</dd> </dl> This will be empty if no purchases are made for the booking.
  * @param {string} dt_date_gmt Date/time to which session is booked.
  * @param {number} id_mode The mode type. One of the {@link Wl_Mode_ModeSid} constants.

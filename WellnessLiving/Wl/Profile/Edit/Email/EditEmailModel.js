@@ -7,6 +7,7 @@
  *
  * @augments WlSdk_ModelAbstract
  * @constructor
+ * @deprecated Use {@link Wl_Profile_Edit_Email_EditEmail67Model} instead.
  */
 function Wl_Profile_Edit_Email_EditEmailModel()
 {
@@ -81,6 +82,14 @@ function Wl_Profile_Edit_Email_EditEmailModel()
   /**
    * If `true`, user is already a member of current business, `false` - otherwise.
    *
+   * @get get
+   * @type {boolean}
+   */
+  this.is_backend = true;
+
+  /**
+   * If `true`, user is already a member of current business, `false` - otherwise.
+   *
    * @get result
    * @type {boolean}
    */
@@ -95,12 +104,28 @@ function Wl_Profile_Edit_Email_EditEmailModel()
   this.is_limit = undefined;
 
   /**
+   * If `true`, user, who has the specified email, has password set, `false` - otherwise.
+   *
+   * @get result
+   * @type {boolean}
+   */
+  this.is_password_set = false;
+
+  /**
    * If `true`, user, who has the specified email, is staff, `false` - otherwise.
    *
    * @get result
    * @type {boolean}
    */
   this.is_staff = false;
+
+  /**
+   * If `true`, user, who has the specified email, is staff in any business, `false` - otherwise.
+   *
+   * @get result
+   * @type {boolean}
+   */
+  this.is_staff_any_business = false;
 
   /**
    * If `true`, then the specified email is in use. Otherwise, this will be `false`.
@@ -156,7 +181,7 @@ WlSdk_ModelAbstract.extend(Wl_Profile_Edit_Email_EditEmailModel);
  */
 Wl_Profile_Edit_Email_EditEmailModel.prototype.config=function()
 {
-  return {"a_field": {"a_business_member_key": {"get": {"result": true}},"a_user": {"get": {"result": true}},"is_added": {"get": {"result": true}},"is_current_member": {"get": {"result": true}},"is_limit": {"get": {"result": true}},"is_staff": {"get": {"result": true}},"is_use": {"get": {"result": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"text_mail": {"get": {"get": true}},"uid_result": {"get": {"result": true}},"uid_want": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_business_member_key": {"get": {"result": true}},"a_user": {"get": {"result": true}},"is_added": {"get": {"result": true}},"is_backend": {"get": {"get": true}},"is_current_member": {"get": {"result": true}},"is_limit": {"get": {"result": true}},"is_password_set": {"get": {"result": true}},"is_staff": {"get": {"result": true}},"is_staff_any_business": {"get": {"result": true}},"is_use": {"get": {"result": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"text_mail": {"get": {"get": true}},"uid_result": {"get": {"result": true}},"uid_want": {"get": {"get": true},"post": {"get": true}}}};
 };
 
 /**

@@ -1,45 +1,51 @@
 /**
- * Api to store captcha user token.
- *
- * Site keys for initialize Google reCAPTCHA v2:
- * * Demo/Staging - `6Ldqwe0gAAAAANve1TEPFb_Yxgb9wsoIfrNL6-2Z`
- * * Production - `6LeOGp4hAAAAACDoQeLUxnu2TAXXZWhdSm118auy`
+ * Stores the user token CAPTCHA.
  *
  * @augments WlSdk_ModelAbstract
  * @constructor
+ * @deprecated Use {@link Core_Google_Captcha_GoogleCaptchaModel} instead of this.
  */
 function Core_Google_GoogleCaptchaModel()
 {
   WlSdk_ModelAbstract.apply(this);
 
   /**
-   * Action name.
-   *
-   * Used for determinate place where captcha needed,
-   * in documentation for APIs which used captcha says which action it use.
+   * Captcha version ID.
    *
    * @put post
-   * @type {string}
+   * @see Core_Google_Captcha_CaptchaVersionSid
+   * @type {number}
    */
-  this.text_action = undefined;
+  this.id_version = 1;
 
   /**
-   * Captcha user token.
+   * The action name.
+   *
+   * Used to determine the place where the CAPTCHA is needed in documentation for endpoints that used
+   * the CAPTCHA.
    *
    * @put post
    * @type {string}
    */
-  this.text_token = undefined;
+  this.text_action = "";
+
+  /**
+   * The user token CAPTCHA.
+   *
+   * @put post
+   * @type {string}
+   */
+  this.text_token = "";
 
   this.changeInit();
 }
 
-WlSdk_ModelAbstract.extend(Core_Google_GoogleCaptchaModel);
+WlSdk_ModelAbstract.extends(Core_Google_GoogleCaptchaModel);
 
 /**
  * @inheritDoc
  */
 Core_Google_GoogleCaptchaModel.prototype.config=function()
 {
-  return {"a_field": {"text_action": {"put": {"post": true}},"text_token": {"put": {"post": true}}}};
+  return {"a_field": {"id_version": {"put": {"post": true}},"text_action": {"put": {"post": true}},"text_token": {"put": {"post": true}}}};
 };

@@ -22,6 +22,7 @@ function Wl_Book_Process_Process59Model()
    *
    * This will be `null` if clients aren't allowed to book for their relationships.
    *
+   * @deprecated Use {@link Wl_Book_Process_ProcessModel.is_family_relation_book} instead. Full list of relatives available, see {@link RsFamilyRelationSid}.
    * @get result
    * @type {?number[]}
    */
@@ -30,8 +31,8 @@ function Wl_Book_Process_Process59Model()
   /**
    * @typedef {{}} Wl_Book_Process_Process59Model_a_path
    * @property {number} id_book_process The step ID. One of the {@link Wl_Book_Process_ProcessSpaSid} constants.
-   * @property {*} is_current <tt>true</tt> - this item is current.
-   * <tt>false</tt> - this item isn't current or not set yet.
+   * @property {*} is_current `true` - this item is current.
+   * `false` - this item isn't current or not set yet.
    */
 
   /**
@@ -184,6 +185,30 @@ function Wl_Book_Process_Process59Model()
   this.is_age_require = undefined;
 
   /**
+   * `true` if action is performed as a staff member; `false` otherwise.
+   *
+   * If `true` is sent, access to the business and to the client will be checked.
+   * If `false` is sent, user can book only for himself or for relatives if this is allowed in business settings.
+   *
+   * @get get
+   * @post get
+   * @type {boolean}
+   */
+  this.is_backend = false;
+
+  /**
+   * `true` to book unpaid.
+   * `false` otherwise.
+   *
+   * Allows booking unpaid when client has a login promotion that can be used to pay for the service.
+   * Allowed in {@link Wl_Mode_ModeSid.WIDGET} mode only.
+   *
+   * @post post
+   * @type {boolean}
+   */
+  this.is_book_unpaid = false;
+
+  /**
    * Determines if the client must authorize the credit card.
    *
    * @get result
@@ -195,7 +220,7 @@ function Wl_Book_Process_Process59Model()
    * Checking whether the client has a credit card (if configured in the business) will be skipped if this flag is set to `false`.
    *
    * Use this field with caution.
-   * The final booking will not use this flag and the check will still be performed.
+   * The final booking will not use this flag, and the check will still be performed.
    *
    * @get get
    * @post get
@@ -312,7 +337,16 @@ function Wl_Book_Process_Process59Model()
   this.k_session_pass = "";
 
   /**
-   * Key of a user who is making a book.
+   * `true` to show "book for" option in booking wizard. `false` for default behavior.
+   *
+   * @get get
+   * @post get
+   * @type {boolean}
+   */
+  this.show_relation = false;
+
+  /**
+   * The client key for which the booking is being made.
    *
    * @get get
    * @post get
@@ -330,7 +364,7 @@ WlSdk_ModelAbstract.extend(Wl_Book_Process_Process59Model);
  */
 Wl_Book_Process_Process59Model.prototype.config=function()
 {
-  return {"a_field": {"a_family_relation_login_allow": {"get": {"result": true}},"a_path": {"get": {"result": true}},"a_repeat": {"post": {"post": true}},"can_book": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"id_pay_require": {"get": {"result": true}},"is_age_require": {"get": {"result": true}},"is_card_authorize": {"get": {"result": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_event": {"get": {"result": true}},"is_family_relation_book": {"get": {"result": true}},"is_force_pay_later": {"post": {"post": true}},"is_free": {"get": {"result": true}},"is_have_ach": {"get": {"result": true}},"is_have_credit_card": {"get": {"result": true}},"is_session": {"get": {"result": true}},"is_wait": {"get": {"result": true}},"is_wait_list_unpaid": {"get": {"result": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_location": {"get": {"result": true}},"k_login_promotion": {"post": {"post": true}},"k_session_pass": {"post": {"post": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_family_relation_login_allow": {"get": {"result": true}},"a_path": {"get": {"result": true}},"a_repeat": {"post": {"post": true}},"can_book": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"id_pay_require": {"get": {"result": true}},"is_age_require": {"get": {"result": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_card_authorize": {"get": {"result": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_event": {"get": {"result": true}},"is_family_relation_book": {"get": {"result": true}},"is_force_pay_later": {"post": {"post": true}},"is_free": {"get": {"result": true}},"is_have_ach": {"get": {"result": true}},"is_have_credit_card": {"get": {"result": true}},"is_session": {"get": {"result": true}},"is_wait": {"get": {"result": true}},"is_wait_list_unpaid": {"get": {"result": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_location": {"get": {"result": true}},"k_login_promotion": {"post": {"post": true}},"k_session_pass": {"post": {"post": true}},"show_relation": {"get": {"get": true},"post": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
 };
 
 /**
@@ -338,7 +372,7 @@ Wl_Book_Process_Process59Model.prototype.config=function()
  * @name Wl_Book_Process_Process59Model.instanceGet
  * @param {string} k_class_period Key of session which is booked.
  * @param {string} dt_date_gmt Date/time to which session is booked.
- * @param {string} uid Key of a user who is making a book.
+ * @param {string} uid The client key for which the booking is being made.
  * @param {number} id_mode The mode type. One of the {@link Wl_Mode_ModeSid} constants.
  * @returns {Wl_Book_Process_Process59Model}
  * @see WlSdk_ModelAbstract.instanceGet()
