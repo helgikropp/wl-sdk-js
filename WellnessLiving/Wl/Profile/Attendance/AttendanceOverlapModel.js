@@ -94,6 +94,8 @@ function Wl_Profile_Attendance_AttendanceOverlapModel()
   this.changeInit();
 }
 
+WlSdk_ModelAbstract.extend(Wl_Profile_Attendance_AttendanceOverlapModel);
+
 /**
  * @inheritDoc
  */
