@@ -5,16 +5,15 @@
  *
  * @augments WlSdk_ModelAbstract
  * @constructor
- * @deprecated Use {@link Wl_Quiz_QuizElement72Model} instead.
  */
-function Wl_Quiz_QuizElementModel()
+function Wl_Quiz_QuizElement72Model()
 {
   WlSdk_ModelAbstract.apply(this);
 
   /**
    * @inheritDoc
    */
-  this._s_key = "k_business,k_quiz,k_quiz_login,uid_client";
+  this._s_key = "k_business,k_quiz,k_quiz_login,uid_client,json_purchase_item";
 
   /**
    * Access log data.
@@ -262,23 +261,24 @@ function Wl_Quiz_QuizElementModel()
   this.changeInit();
 }
 
-WlSdk_ModelAbstract.extend(Wl_Quiz_QuizElementModel);
+WlSdk_ModelAbstract.extend(Wl_Quiz_QuizElement72Model);
 
 /**
  * @inheritDoc
  */
-Wl_Quiz_QuizElementModel.prototype.config=function()
+Wl_Quiz_QuizElement72Model.prototype.config=function()
 {
   return {"a_field": {"a_access_log": {"get": {"result": true}},"a_element": {"get": {"result": true},"post": {"post": true}},"a_setting": {"get": {"result": true},"post": {"post": true},"put": {"result": true}},"can_amend": {"get": {"result": true}},"can_anonymous": {"get": {"get": true},"post": {"get": true}},"i_responses": {"get": {"result": true}},"is_active": {"get": {"result": true},"post": {"post": true},"put": {"post": true}},"is_builder": {"get": {"get": true}},"is_imported": {"get": {"result": true}},"is_prevent_franchisee": {"get": {"result": true}},"is_simple": {"get": {"get": true},"post": {"get": true}},"json_element": {"post": {"post": true}},"json_purchase_item": {"get": {"get": true}},"k_business": {"delete": {"get": true},"get": {"get": true},"post": {"get": true},"put": {"get": true}},"k_business_type": {"get": {"result": true},"post": {"post": true}},"k_quiz": {"delete": {"get": true},"get": {"get": true},"post": {"get": true,"result": true},"put": {"get": true}},"k_quiz_login": {"delete": {"get": true},"get": {"get": true},"post": {"get": true},"put": {"get": true}},"show_numbering": {"get": {"result": true},"post": {"post": true}},"text_title": {"get": {"result": true},"post": {"post": true}},"uid_client": {"get": {"get": true}},"url_quiz": {"get": {"result": true},"put": {"result": true}},"url_quiz_kiosk": {"get": {"result": true},"put": {"result": true}}}};
 };
 
 /**
  * @function
- * @name Wl_Quiz_QuizElementModel.instanceGet
+ * @name Wl_Quiz_QuizElement72Model.instanceGet
  * @param {string} k_business Business key within which quiz is managed.
  * @param {string} k_quiz Quiz key.
  * @param {string} k_quiz_login Quiz login key.
  * @param {string} uid_client UID of the client for which quiz requested.
- * @returns {Wl_Quiz_QuizElementModel}
+ * @param {string} json_purchase_item List of purchase items for which this form is loaded in JSON format. This variable supports two structures: New structure: Each element key has the format `[id_purchase_item]::[k_id]`, where: <dl>  <dt>int <var>id_purchase_item</var></dt>  <dd>The ID of the purchase item. One of the {@link RsPurchaseItemSid} constants.</dd>  <dt>string <var>k_id</var></dt>  <dd>The item key. This depends on <var>id_purchase_item</var> of this array.</dd> </dl> Each element value has the format: <dl>  <dt>int <var>[i_duration]</var></dt>  <dd>Duration of the purchase option.</dd>  <dt>int <var>[i_payment_period]</var></dt>  <dd>Payment period for the purchase option.</dd>  <dt>int <var>[id_duration]</var></dt>  <dd>Duration type, one of {@link RsDurationTypeSid} constants.</dd> </dl> Old structure: Each element is a string in the format `[id_purchase_item]::[k_id]`. Empty in case when purchase item not specified or form loaded from direct link.
+ * @returns {Wl_Quiz_QuizElement72Model}
  * @see WlSdk_ModelAbstract.instanceGet()
  */
