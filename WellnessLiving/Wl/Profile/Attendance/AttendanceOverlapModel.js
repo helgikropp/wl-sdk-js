@@ -15,7 +15,7 @@ function Wl_Profile_Attendance_AttendanceOverlapModel()
   /**
    * @inheritDoc
    */
-  this._s_key = "dtl_date,i_duration,k_business,k_class_period,k_location,k_resource,k_service,uid";
+  this._s_key = "dtu_date,i_duration,k_business,k_class_period,k_location,k_resource,k_service,k_timezone,uid";
 
   /**
    * List of visits that overlap with the specified data.
@@ -28,12 +28,12 @@ function Wl_Profile_Attendance_AttendanceOverlapModel()
   this.a_visit_list = [];
 
   /**
-   * Date of a selected service in location timezone.
+   * Date of a selected service.
    *
    * @get get
    * @type {?string}
    */
-  this.dtl_date = null;
+  this.dtu_date = null;
 
   /**
    * Duration of a service (asset).
@@ -84,6 +84,16 @@ function Wl_Profile_Attendance_AttendanceOverlapModel()
   this.k_service = "0";
 
   /**
+   * Key of timezone.
+   *
+   * `null` if not set then use default timezone client.
+   *
+   * @get get
+   * @type {string}
+   */
+  this.k_timezone = "0";
+
+  /**
    * UID of a user.
    *
    * @get get
@@ -101,19 +111,20 @@ WlSdk_ModelAbstract.extend(Wl_Profile_Attendance_AttendanceOverlapModel);
  */
 Wl_Profile_Attendance_AttendanceOverlapModel.prototype.config = function()
 {
-  return {"a_field": {"a_visit_list": {"get": {"result": true}},"dtl_date": {"get": {"get": true}},"i_duration": {"get": {"get": true}},"k_business": {"get": {"get": true}},"k_class_period": {"get": {"get": true}},"k_location": {"get": {"get": true}},"k_resource": {"get": {"get": true}},"k_service": {"get": {"get": true}},"uid": {"get": {"get": true}}}};
+  return {"a_field": {"a_visit_list": {"get": {"result": true}},"dtu_date": {"get": {"get": true}},"i_duration": {"get": {"get": true}},"k_business": {"get": {"get": true}},"k_class_period": {"get": {"get": true}},"k_location": {"get": {"get": true}},"k_resource": {"get": {"get": true}},"k_service": {"get": {"get": true}},"k_timezone": {"get": {"get": true}},"uid": {"get": {"get": true}}}};
 };
 
 /**
  * @function
  * @name Wl_Profile_Attendance_AttendanceOverlapModel.instanceGet
- * @param {?string} dtl_date Date of a selected service in location timezone.
- * @param {number} i_duration Duration of a service (asset).
- * @param {string} k_business Primary key of the business.
- * @param {?string} k_class_period Class period key.
- * @param {?string} k_location Location key.
- * @param {?string} k_resource Asset key.
- * @param {?string} k_service Service key.
+ * @param {?string} dtu_date Date of a selected service.
+ * @param {number} i_duration Duration of a service.
+ * @param {string} k_business Primary key of the business to add the user into.
+ * @param {string} k_class_period Class period key.
+ * @param {string} k_location Location key.
+ * @param {string} k_resource Asset key.
+ * @param {string} k_service Service key.
+ * @param {string} k_timezone Key of timezone.
  * @param {string} uid UID of a user.
  * @returns {Wl_Profile_Attendance_AttendanceOverlapModel}
  * @see WlSdk_ModelAbstract.instanceGet()
