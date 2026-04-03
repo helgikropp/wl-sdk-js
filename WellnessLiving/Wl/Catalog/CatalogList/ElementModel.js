@@ -432,7 +432,7 @@ function Wl_Catalog_CatalogList_ElementModel()
 
   /**
    * The ID of the purchase item category.
-   * One of {@link RsPurchaseItemSid} constants.
+   * One of {@link Wl_Purchase_Item_ItemSid} constants.
    *
    * @get result
    * @type {number}

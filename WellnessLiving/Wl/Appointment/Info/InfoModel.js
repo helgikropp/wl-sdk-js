@@ -119,7 +119,7 @@ function Wl_Appointment_Info_InfoModel()
   this.i_index = null;
 
   /**
-   * The status of the appointment payment. One of the {@link RsAppointmentPaySid} constants.
+   * The status of the appointment payment. One of the {@link Wl_Appointment_PaySid} constants.
    *
    * @get result
    * @type {number}

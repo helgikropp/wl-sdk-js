@@ -238,7 +238,7 @@ function Wl_Appointment_Book_Schedule_CalendarModel()
   /**
    * The ID of the staff member's gender.
    * For back-to-back bookings, this will display the gender of the staff member conducting the first appointment.
-   * One of the {@link AGenderSid} constants. This will be `0` if no limitations on staff member gender are set.
+   * One of the {@link Wl_Gender_GenderSid} constants. This will be `0` if no limitations on staff member gender are set.
    *
    * @get get
    * @type {number}
@@ -407,7 +407,7 @@ Wl_Appointment_Book_Schedule_CalendarModel.prototype.config=function()
  * @function
  * @name Wl_Appointment_Book_Schedule_CalendarModel.instanceGet
  * @param {number} id_gender_staff The staff member gender. One of the {@link Wl_Gender_GenderSid} constants. This will be '0' if there are no limitations on staff member gender.
- * One of the {@link AGenderSid} constants. This will be `0` if there are no limitations for staff member gender.
+ * One of the {@link Wl_Gender_GenderSid} constants. This will be `0` if there are no limitations for staff member gender.
  * @param {string} k_staff The staff member key used for showing the available appointment booking schedule.
  * This will be the staff member key of the first appointment for back-to-back bookings.
  * If `0`, any available staff member key can be used.
