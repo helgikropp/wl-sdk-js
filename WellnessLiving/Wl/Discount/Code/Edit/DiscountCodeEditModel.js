@@ -11,6 +11,42 @@ function Wl_Discount_Code_Edit_DiscountCodeEditModel()
   WlSdk_ModelAbstract.apply(this);
 
   /**
+   * @typedef {{}} Wl_Discount_Code_Edit_DiscountCodeEditModel_a_component
+   * @property {number} id_purchase_item Type ID of the purchase item. One of {@link Wl_Purchase_Item_ItemSid} constants.
+   * @property {string} k_id Primary key of the component.
+   * <p>Special Notes:</p>
+   * <ul>
+   *   <li>Zero means that all elements of this type are available.</li>
+   *   <li>For `id_purchase_item`={@link Wl_Purchase_Item_ItemSid.CLASS_PERIOD} we store {@link \RsClassSql}.`k_class` in the `k_id` field.</li>
+   * </ul>
+   * @property {string} text_title Title of the component.
+   */
+
+  /**
+   * List of components that are affected by this discount code.
+   * Each element is an array containing:
+   * <dl>
+   *   <dt>int <var>id_purchase_item</var></dt>
+   *   <dd>Type ID of the purchase item. One of {@link Wl_Purchase_Item_ItemSid} constants.</dd>
+   *   <dt>string <var>k_id</var></dt>
+   *   <dd>
+   *     Primary key of the component.
+   *     <p>Special Notes:</p>
+   *     <ul>
+   *       <li>Zero means that all elements of this type are available.</li>
+   *       <li>For `id_purchase_item`={@link Wl_Purchase_Item_ItemSid.CLASS_PERIOD} we store {@link \RsClassSql}.`k_class` in the `k_id` field.</li>
+   *     </ul>
+   *   </dd>
+   *   <dt>string <var>text_title</var></dt>
+   *   <dd>Title of the component.</dd>
+   * </dl>
+   *
+   * @get result
+   * @type {Wl_Discount_Code_Edit_DiscountCodeEditModel_a_component[]}
+   */
+  this.a_component = [];
+
+  /**
    * List of client types.
    *
    * @get result
@@ -241,5 +277,5 @@ WlSdk_ModelAbstract.extend(Wl_Discount_Code_Edit_DiscountCodeEditModel);
  */
 Wl_Discount_Code_Edit_DiscountCodeEditModel.prototype.config=function()
 {
-  return {"a_field": {"a_login_type": {"get": {"result": true},"post": {"post": true}},"a_member_group": {"get": {"result": true},"post": {"post": true}},"dl_end": {"get": {"result": true},"post": {"post": true}},"dl_start": {"get": {"result": true},"post": {"post": true}},"f_value": {"get": {"result": true},"post": {"post": true}},"i_duration": {"get": {"result": true},"post": {"post": true}},"i_limit": {"get": {"result": true},"post": {"post": true}},"id_duration": {"get": {"result": true},"post": {"post": true}},"id_duration_type": {"get": {"result": true},"post": {"post": true}},"is_active": {"get": {"result": true},"post": {"post": true}},"is_auto_renew": {"get": {"result": true},"post": {"post": true}},"is_coupon": {"get": {"result": true},"post": {"post": true}},"is_first_payment": {"get": {"result": true},"post": {"post": true}},"is_login_type": {"get": {"result": true},"post": {"post": true}},"is_online": {"get": {"result": true},"post": {"post": true}},"is_percent": {"get": {"result": true},"post": {"post": true}},"is_purchase_all": {"get": {"result": true},"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true},"put": {"get": true}},"k_discount_code": {"get": {"get": true},"post": {"get": true,"result": true},"put": {"get": true,"result": true}},"s_component": {"get": {"result": true},"post": {"post": true}},"text_code": {"get": {"result": true},"post": {"post": true}},"text_description": {"get": {"result": true},"post": {"post": true}},"text_title": {"get": {"result": true},"post": {"post": true}}}};
+  return {"a_field": {"a_component": {"get": {"result": true}},"a_login_type": {"get": {"result": true},"post": {"post": true}},"a_member_group": {"get": {"result": true},"post": {"post": true}},"dl_end": {"get": {"result": true},"post": {"post": true}},"dl_start": {"get": {"result": true},"post": {"post": true}},"f_value": {"get": {"result": true},"post": {"post": true}},"i_duration": {"get": {"result": true},"post": {"post": true}},"i_limit": {"get": {"result": true},"post": {"post": true}},"id_duration": {"get": {"result": true},"post": {"post": true}},"id_duration_type": {"get": {"result": true},"post": {"post": true}},"is_active": {"get": {"result": true},"post": {"post": true}},"is_auto_renew": {"get": {"result": true},"post": {"post": true}},"is_coupon": {"get": {"result": true},"post": {"post": true}},"is_first_payment": {"get": {"result": true},"post": {"post": true}},"is_login_type": {"get": {"result": true},"post": {"post": true}},"is_online": {"get": {"result": true},"post": {"post": true}},"is_percent": {"get": {"result": true},"post": {"post": true}},"is_purchase_all": {"get": {"result": true},"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true},"put": {"get": true}},"k_discount_code": {"get": {"get": true},"post": {"get": true,"result": true},"put": {"get": true,"result": true}},"s_component": {"get": {"result": true},"post": {"post": true}},"text_code": {"get": {"result": true},"post": {"post": true}},"text_description": {"get": {"result": true},"post": {"post": true}},"text_title": {"get": {"result": true},"post": {"post": true}}}};
 };
