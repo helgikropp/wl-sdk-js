@@ -129,12 +129,12 @@ function Wl_Purchase_Receipt_PurchaseReceiptModel()
    * @property {number} i_count The number of items in the purchase.
    * @property {?number} id_program Program ID. One of {@link RsProgramSid} constants. Only applies to promotions.
    *   `null` if the purchase item is not a promotion.
-   * @property {number} id_purchase_item Purchase item ID. One of {@link RsPurchaseItemSid} constants.
+   * @property {number} id_purchase_item Purchase item ID. One of {@link Wl_Purchase_Item_ItemSid} constants.
    * @property {number} id_sale Sale ID. One of {@link RsSaleSid} constants.
    * @property {number} k_id The identifier of the item.
    * @property {string} k_purchase_item The key of the purchase item.
    * @property {string} [k_shop_product] Product key, primary key in {@link \RsShopProductSql}. Set only if <tt>id_purchase_item</tt>
-   *   is {@link RsPurchaseItemSid.PRODUCT}.
+   *   is {@link Wl_Purchase_Item_ItemSid.PRODUCT}.
    * @property {string} m_price The price of the single item.
    * @property {string} m_price_total The price of all items.
    * @property {string} text_category The type of the item (for example, a pass or membership).

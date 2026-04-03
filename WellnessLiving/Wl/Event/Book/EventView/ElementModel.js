@@ -84,7 +84,7 @@ function Wl_Event_Book_EventView_ElementModel()
    * @typedef {{}} Wl_Event_Book_EventView_ElementModel_a_class_logo
    * @property {*} i_height Is returned only if staff has a photo. Image height.
    * @property {*} i_width Is returned only if staff has a photo. Image width.
-   * @property {*} id_gender Is returned only if staff does not have a photo. ID of staff gender. One of {@link AGenderSid} constants.
+   * @property {*} id_gender Is returned only if staff does not have a photo. ID of staff gender. One of {@link Wl_Gender_GenderSid} constants.
    * @property {*} url_logo Is returned only if staff has a photo. URL to image.
    */
 
@@ -96,7 +96,7 @@ function Wl_Event_Book_EventView_ElementModel()
    *   <dt>int [<var>i_width</var>]</dt>
    *   <dd>Is returned only if staff has a photo. Image width.</dd>
    *   <dt>int [<var>id_gender</var>] </dt>
-   *   <dd>Is returned only if staff does not have a photo. ID of staff gender. One of {@link AGenderSid} constants.</dd>
+   *   <dd>Is returned only if staff does not have a photo. ID of staff gender. One of {@link Wl_Gender_GenderSid} constants.</dd>
    *   <dt>string [<var>url_logo</var>]</dt>
    *   <dd>Is returned only if staff has a photo. URL to image.</dd>
    * </dl>

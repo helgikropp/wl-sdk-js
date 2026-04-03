@@ -143,7 +143,7 @@ function Wl_Quiz_QuizElement72Model()
    * New structure:
    * Each element key has the format `[id_purchase_item]::[k_id]`, where: <dl>
    *   <dt>int <var>id_purchase_item</var></dt>
-   *   <dd>The ID of the purchase item. One of the {@link RsPurchaseItemSid} constants.</dd>
+   *   <dd>The ID of the purchase item. One of the {@link Wl_Purchase_Item_ItemSid} constants.</dd>
    *   <dt>string <var>k_id</var></dt>
    *   <dd>The item key. This depends on <var>id_purchase_item</var> of this array.</dd>
    * </dl>
@@ -278,7 +278,7 @@ Wl_Quiz_QuizElement72Model.prototype.config=function()
  * @param {string} k_quiz Quiz key.
  * @param {string} k_quiz_login Quiz login key.
  * @param {string} uid_client UID of the client for which quiz requested.
- * @param {string} json_purchase_item List of purchase items for which this form is loaded in JSON format. This variable supports two structures: New structure: Each element key has the format `[id_purchase_item]::[k_id]`, where: <dl>  <dt>int <var>id_purchase_item</var></dt>  <dd>The ID of the purchase item. One of the {@link RsPurchaseItemSid} constants.</dd>  <dt>string <var>k_id</var></dt>  <dd>The item key. This depends on <var>id_purchase_item</var> of this array.</dd> </dl> Each element value has the format: <dl>  <dt>int <var>[i_duration]</var></dt>  <dd>Duration of the purchase option.</dd>  <dt>int <var>[i_payment_period]</var></dt>  <dd>Payment period for the purchase option.</dd>  <dt>int <var>[id_duration]</var></dt>  <dd>Duration type, one of {@link RsDurationTypeSid} constants.</dd> </dl> Old structure: Each element is a string in the format `[id_purchase_item]::[k_id]`. Empty in case when purchase item not specified or form loaded from direct link.
+ * @param {string} json_purchase_item List of purchase items for which this form is loaded in JSON format. This variable supports two structures: New structure: Each element key has the format `[id_purchase_item]::[k_id]`, where: <dl>  <dt>int <var>id_purchase_item</var></dt>  <dd>The ID of the purchase item. One of the {@link Wl_Purchase_Item_ItemSid} constants.</dd>  <dt>string <var>k_id</var></dt>  <dd>The item key. This depends on <var>id_purchase_item</var> of this array.</dd> </dl> Each element value has the format: <dl>  <dt>int <var>[i_duration]</var></dt>  <dd>Duration of the purchase option.</dd>  <dt>int <var>[i_payment_period]</var></dt>  <dd>Payment period for the purchase option.</dd>  <dt>int <var>[id_duration]</var></dt>  <dd>Duration type, one of {@link RsDurationTypeSid} constants.</dd> </dl> Old structure: Each element is a string in the format `[id_purchase_item]::[k_id]`. Empty in case when purchase item not specified or form loaded from direct link.
  * @returns {Wl_Quiz_QuizElement72Model}
  * @see WlSdk_ModelAbstract.instanceGet()
  */
