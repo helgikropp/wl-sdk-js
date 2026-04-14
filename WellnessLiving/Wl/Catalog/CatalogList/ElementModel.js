@@ -259,34 +259,44 @@ function Wl_Catalog_CatalogList_ElementModel()
   /**
    * A list of requested goods information.
    * <dl>
-   *   <dt>array <var>a_data</var></dt>
-   *   <dd>Contains additional specified data for the sale item.</dd>
+   *   <dt>array `a_data`</dt>
+   *   <dd>Contains additional specified data for the sale item.
+   *     For Package, it contains also the following key:
+   *     <dl>
+   *       <dt>bool `is_price_breakdown`</dt>
+   *       <dd>
+   *         Whether to display individual prices for each item in the package.<br>
+   *         `true` display individual prices for each item in the package,<br>
+   *         `false` display a single total price for the package.
+   *       </dd>
+   *     </dl>
+   *   </dd>
    *
-   *   <dt>array <var>a_image</var></dt>
+   *   <dt>array `a_image`</dt>
    *   <dd>Information about one image connected to a sale item.</dd>
    *
-   *   <dt>array <var>a_tax</var></dt>
+   *   <dt>array `a_tax`</dt>
    *   <dd>Contains information about taxes. Structure of this array is described in {@link RsTax::$a_tax}.</dd>
    *
-   *   <dt>string <var>id_purchase_option_view</var></dt>
+   *   <dt>string `id_purchase_option_view`</dt>
    *   <dd>Purchase option view type, one of {@link Wl_Catalog_PurchaseOptionViewSid}.</dd>
    *
-   *   <dt>string <var>m_discount_code</var></dt>
+   *   <dt>string `m_discount_code`</dt>
    *   <dd>Amount of discount code.</dd>
    *
-   *   <dt>string <var>m_discount_login</var></dt>
+   *   <dt>string `m_discount_login`</dt>
    *   <dd>Amount of discount for client type.</dd>
    *
-   *   <dt>string <var>s_comment</var></dt>
+   *   <dt>string `s_comment`</dt>
    *   <dd>Additional information about sale item. For example: information about 'introductory offer'.</dd>
    *
-   *   <dt>string <var>s_price</var></dt>
-   *   <dd>Price of the sale item in human readable format.</dd>
+   *   <dt>string `s_price`</dt>
+   *   <dd>Price of the sale item in human-readable format.</dd>
    *
-   *   <dt>string <var>s_sale</var></dt>
+   *   <dt>string `s_sale`</dt>
    *   <dd>Category title of the sale item.</dd>
    *
-   *   <dt>string <var>s_title</var></dt>
+   *   <dt>string `s_title`</dt>
    *   <dd>Title of sale item.</dd>
    * </dl>
    *
