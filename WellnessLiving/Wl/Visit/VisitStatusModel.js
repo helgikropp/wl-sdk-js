@@ -323,6 +323,24 @@ function Wl_Visit_VisitStatusModel()
   this.uid = null;
 
   /**
+   * The direct link to start class/event booking on the WellnessLiving website.
+   * `null` for appointments/events/gym visits.
+   *
+   * @get result
+   * @type {?string}
+   */
+  this.url_book_referral = null;
+
+  /**
+   * The shortened direct link to start class/event booking on the WellnessLiving website.
+   * `null` for appointments/events/gym visits.
+   *
+   * @get result
+   * @type {?string}
+   */
+  this.url_book_referral_short = null;
+
+  /**
    * URL of virtual service. Empty if the visit is not virtual.
    *
    * @get result
@@ -340,5 +358,5 @@ WlSdk_ModelAbstract.extend(Wl_Visit_VisitStatusModel);
  */
 Wl_Visit_VisitStatusModel.prototype.config=function()
 {
-  return {"a_field": {"a_resource": {"get": {"result": true}},"a_resource_alias": {"get": {"result": true}},"a_staff": {"get": {"result": true}},"dt_date": {"get": {"result": true}},"dtl_date": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_wait_spot": {"get": {"result": true}},"id_mode": {"get": {"result": true},"post": {"post": true}},"id_visit": {"get": {"result": true},"post": {"post": true}},"id_visit_from": {"post": {"post": true,"error": true}},"is_charge_fee": {"post": {"get": true}},"is_event": {"get": {"result": true}},"is_mail": {"post": {"post": true}},"is_push": {"post": {"post": true}},"is_request": {"get": {"result": true}},"is_sms": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_class": {"get": {"result": true}},"k_class_period": {"get": {"result": true}},"k_location": {"get": {"result": true}},"k_mail_pattern_live": {"post": {"get": true}},"k_service": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"k_timezone": {"get": {"get": true}},"k_visit": {"get": {"get": true},"post": {"get": true}},"s_calendar_file_content": {"get": {"result": true}},"text_abbr_timezone": {"get": {"result": true}},"text_location": {"get": {"result": true}},"text_reason": {"post": {"get": true}},"text_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}},"uid": {"get": {"result": true}},"url_virtual_service": {"get": {"result": true}}}};
+  return {"a_field": {"a_resource": {"get": {"result": true}},"a_resource_alias": {"get": {"result": true}},"a_staff": {"get": {"result": true}},"dt_date": {"get": {"result": true}},"dtl_date": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_wait_spot": {"get": {"result": true}},"id_mode": {"get": {"result": true},"post": {"post": true}},"id_visit": {"get": {"result": true},"post": {"post": true}},"id_visit_from": {"post": {"post": true,"error": true}},"is_charge_fee": {"post": {"get": true}},"is_event": {"get": {"result": true}},"is_mail": {"post": {"post": true}},"is_push": {"post": {"post": true}},"is_request": {"get": {"result": true}},"is_sms": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_class": {"get": {"result": true}},"k_class_period": {"get": {"result": true}},"k_location": {"get": {"result": true}},"k_mail_pattern_live": {"post": {"get": true}},"k_service": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"k_timezone": {"get": {"get": true}},"k_visit": {"get": {"get": true},"post": {"get": true}},"s_calendar_file_content": {"get": {"result": true}},"text_abbr_timezone": {"get": {"result": true}},"text_location": {"get": {"result": true}},"text_reason": {"post": {"get": true}},"text_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}},"uid": {"get": {"result": true}},"url_book_referral": {"get": {"result": true}},"url_book_referral_short": {"get": {"result": true}},"url_virtual_service": {"get": {"result": true}}}};
 };
