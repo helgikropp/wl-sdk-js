@@ -324,7 +324,7 @@ function Wl_Visit_VisitStatusModel()
 
   /**
    * The direct link to start class/event booking on the WellnessLiving website.
-   * `null` for aappointments/events/gym visits.
+   * `null` for appointments/events/gym visits.
    *
    * @get result
    * @type {?string}
@@ -333,7 +333,7 @@ function Wl_Visit_VisitStatusModel()
 
   /**
    * The shortened direct link to start class/event booking on the WellnessLiving website.
-   * * `null` for aappointments/events/gym visits.
+   * `null` for appointments/events/gym visits.
    *
    * @get result
    * @type {?string}
