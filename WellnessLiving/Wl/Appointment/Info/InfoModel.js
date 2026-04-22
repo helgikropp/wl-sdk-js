@@ -146,9 +146,9 @@ function Wl_Appointment_Info_InfoModel()
    * The Purchase Option used to purchase the appointment.
    *
    * @get result
-   * @type {string}
+   * @type {?string}
    */
-  this.k_login_promotion = undefined;
+  this.k_login_promotion = null;
 
   /**
    * The asset key.
@@ -181,6 +181,14 @@ function Wl_Appointment_Info_InfoModel()
    * @type {?string}
    */
   this.k_service_category = null;
+
+  /**
+   * Drop-in used to purchase the appointment.
+   *
+   * @get result
+   * @type {?string}
+   */
+  this.k_session_pass = null;
 
   /**
    * The staff member conducting the appointment.
@@ -216,7 +224,7 @@ WlSdk_ModelAbstract.extend(Wl_Appointment_Info_InfoModel);
  */
 Wl_Appointment_Info_InfoModel.prototype.config=function()
 {
-  return {"a_field": {"a_next": {"get": {"result": true}},"a_previous": {"get": {"result": true}},"a_question": {"get": {"result": true}},"a_resource": {"get": {"result": true}},"a_shop_product_option": {"get": {"result": true}},"dt_date_local": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_index": {"get": {"result": true}},"id_appointment_pay": {"get": {"result": true}},"k_appointment": {"get": {"get": true}},"k_location": {"get": {"result": true}},"k_login_promotion": {"get": {"result": true}},"k_resource": {"get": {"result": true}},"k_resource_type": {"get": {"result": true}},"k_service": {"get": {"result": true}},"k_service_category": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}},"uid_appointment": {"get": {"result": true}}}};
+  return {"a_field": {"a_next": {"get": {"result": true}},"a_previous": {"get": {"result": true}},"a_question": {"get": {"result": true}},"a_resource": {"get": {"result": true}},"a_shop_product_option": {"get": {"result": true}},"dt_date_local": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_index": {"get": {"result": true}},"id_appointment_pay": {"get": {"result": true}},"k_appointment": {"get": {"get": true}},"k_location": {"get": {"result": true}},"k_login_promotion": {"get": {"result": true}},"k_resource": {"get": {"result": true}},"k_resource_type": {"get": {"result": true}},"k_service": {"get": {"result": true}},"k_service_category": {"get": {"result": true}},"k_session_pass": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}},"uid_appointment": {"get": {"result": true}}}};
 };
 
 /**
