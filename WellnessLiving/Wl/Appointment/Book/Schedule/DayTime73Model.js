@@ -4,17 +4,17 @@
  * @augments WlSdk_ModelAbstract
  * @constructor
  */
-function Wl_Appointment_Book_Schedule_DayTimeModel()
+function Wl_Appointment_Book_Schedule_DayTime73Model()
 {
   WlSdk_ModelAbstract.apply(this);
 
   /**
    * @inheritDoc
    */
-  this._s_key = "id_gender_staff,k_staff,dt_date,k_location,k_service,k_resource,i_index,i_duration,uid,is_unavailable,s_product,s_appointment,is_staff,is_back_to_back,k_timezone";
+  this._s_key = "id_gender_staff,dt_date,k_location,k_service,k_resource,i_index,i_duration,uid,is_unavailable,s_product,s_appointment,is_staff,is_back_to_back,k_timezone,uid_staff";
 
   /**
-   * @typedef {{}} Wl_Appointment_Book_Schedule_DayTimeModel_a_time
+   * @typedef {{}} Wl_Appointment_Book_Schedule_DayTime73Model_a_time
    * @property {string} dt_date The calendar date.
    * @property {number} i_count The number of clients that have already booked the appointment.
    * @property {number} i_time The integer representation of the appointment schedule time in minutes from midnight.
@@ -43,7 +43,7 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
    * </dl>
    *
    * @get result
-   * @type {Wl_Appointment_Book_Schedule_DayTimeModel_a_time}
+   * @type {Wl_Appointment_Book_Schedule_DayTime73Model_a_time}
    */
   this.a_time = undefined;
 
@@ -188,7 +188,7 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
    * This is a JSON encoded list of values used when multiple sessions are booked.
    * This will be an empty string for a single appointment or asset booking.
    *
-   * For back-to-back booking ({@link Wl_Appointment_Book_Schedule_DayTimeModel.is_back_to_back} == `true`): array of appointments for back-to-back booking.
+   * For back-to-back booking ({@link Wl_Appointment_Book_Schedule_DayTime73Model.is_back_to_back} == `true`): array of appointments for back-to-back booking.
    * Converted to JSON string to be usable as model key. Each item is an array with next structure:
    * <dl>
    * <dt>array <var>a_addon</var></dt><dd>An array of appointment add-ons.</dd>
@@ -198,7 +198,7 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
    * <dt>string <var>k_staff</var></dt><dd>The staff member key. This will be '0' if any available staff member key can be used.</dd>
    * </dl>
    *
-   * For multiple appointment booking ({@link Wl_Appointment_Book_Schedule_DayTimeModel.is_back_to_back} == `false`): array of previously booked appointments.
+   * For multiple appointment booking ({@link Wl_Appointment_Book_Schedule_DayTime73Model.is_back_to_back} == `false`): array of previously booked appointments.
    * Converted to JSON string to be usable as model key. Each item is an array with next structure:
    * <dl>
    * <dt>string <var>dtl_date</var></dt><dd>The local date and time of the appointment start in MySQL format.</dd>
@@ -229,22 +229,30 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
    */
   this.uid = "0";
 
+  /**
+   * The client to get information for.
+   *
+   * @get get
+   * @type {string}
+   */
+  this.uid_staff = "0";
+
   this.changeInit();
 }
 
-WlSdk_ModelAbstract.extend(Wl_Appointment_Book_Schedule_DayTimeModel);
+WlSdk_ModelAbstract.extend(Wl_Appointment_Book_Schedule_DayTime73Model);
 
 /**
  * @inheritDoc
  */
-Wl_Appointment_Book_Schedule_DayTimeModel.prototype.config=function()
+Wl_Appointment_Book_Schedule_DayTime73Model.prototype.config=function()
 {
-  return {"a_field": {"a_time": {"get": {"result": true}},"a_uid": {"get": {"get": true},"post": {"get": true}},"dt_date": {"get": {"get": true,"result": true}},"i_duration": {"get": {"get": true}},"i_index": {"get": {"get": true}},"id_gender_staff": {"get": {"get": true}},"is_back_to_back": {"get": {"get": true}},"is_staff": {"get": {"get": true}},"is_unavailable": {"get": {"get": true}},"is_waitlist": {"get": {"result": true}},"is_walk_in": {"get": {"get": true},"post": {"get": true}},"k_location": {"get": {"get": true,"result": true},"post": {"get": true}},"k_resource": {"get": {"get": true}},"k_service": {"get": {"get": true}},"k_staff": {"get": {"get": true}},"k_timezone": {"get": {"get": true}},"s_appointment": {"get": {"get": true}},"s_product": {"get": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_time": {"get": {"result": true}},"a_uid": {"get": {"get": true},"post": {"get": true}},"dt_date": {"get": {"get": true,"result": true}},"i_duration": {"get": {"get": true}},"i_index": {"get": {"get": true}},"id_gender_staff": {"get": {"get": true}},"is_back_to_back": {"get": {"get": true}},"is_staff": {"get": {"get": true}},"is_unavailable": {"get": {"get": true}},"is_waitlist": {"get": {"result": true}},"is_walk_in": {"get": {"get": true},"post": {"get": true}},"k_location": {"get": {"get": true,"result": true},"post": {"get": true}},"k_resource": {"get": {"get": true}},"k_service": {"get": {"get": true}},"k_staff": {"get": {"get": true}},"k_timezone": {"get": {"get": true}},"s_appointment": {"get": {"get": true}},"s_product": {"get": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}},"uid_staff": {"get": {"get": true}}}};
 };
 
 /**
  * @function
- * @name Wl_Appointment_Book_Schedule_DayTimeModel.instanceGet
+ * @name Wl_Appointment_Book_Schedule_DayTime73Model.instanceGet
  * @param {number} id_gender_staff The staff member gender. One of the {@link Wl_Gender_GenderSid} constants. This will be '0' if there are no limitations on staff member gender.
  * One of the {@link Wl_Gender_GenderSid} constants. This will be `0` if there are no limitations for staff member gender.
  * @param {string} k_staff The staff member key used for showing the available appointment booking schedule.
@@ -265,11 +273,11 @@ Wl_Appointment_Book_Schedule_DayTimeModel.prototype.config=function()
  * @param {string} s_product A list of service add-on keys encoded as a JSON string.
  * This will be the add-on of the first appointment for back-to-back bookings.
  * @param {string} s_appointment This is a JSON encoded list of values used when multiple sessions are booked.
- * This will be an empty string for a single appointment or asset booking. For back-to-back booking ({@link Wl_Appointment_Book_Schedule_DayTimeModel.is_back_to_back} == `true`): array of appointments for back-to-back booking. Converted to JSON string to be usable as model key. Each item is an array with next structure: <dl> <dt>array <var>a_addon</var></dt><dd>Array of appointment addons. Each value is primary key in {@link \RsShopProductSql} table.</dd> <dt>int <var>i_duration</var></dt><dd>Custom duration of the appointment in minutes. Zero in case of service predefined duration.</dd> <dt>int <var>id_gender_staff</var></dt><dd>Staff gender. One of {@link Wl_Gender_GenderSid} constants. Zero mean no limitations on staff gender.</dd> <dt>string <var>k_service</var></dt><dd>Service key.</dd> <dt>string <var>k_staff</var></dt><dd>Staff key. Zero means any available staff.</dd> </dl> For multiple appointment booking ({@link Wl_Appointment_Book_Schedule_DayTimeModel.is_back_to_back} == `false`): array of previously booked appointments. Converted to JSON string to be usable as model key. Each item is an array with next structure: <dl> <dt>string <var>dtl_date</var></dt><dd>Local date and time of appointment start in MySQL format.</dd> <dt>int <var>i_duration</var></dt><dd>Duration of the appointment in minutes.</dd> <dt>string <var>k_service</var></dt><dd>Service key.</dd> </dl>
+ * This will be an empty string for a single appointment or asset booking. For back-to-back booking ({@link Wl_Appointment_Book_Schedule_DayTime73Model.is_back_to_back} == `true`): array of appointments for back-to-back booking. Converted to JSON string to be usable as model key. Each item is an array with next structure: <dl> <dt>array <var>a_addon</var></dt><dd>Array of appointment addons. Each value is primary key in {@link \RsShopProductSql} table.</dd> <dt>int <var>i_duration</var></dt><dd>Custom duration of the appointment in minutes. Zero in case of service predefined duration.</dd> <dt>int <var>id_gender_staff</var></dt><dd>Staff gender. One of {@link Wl_Gender_GenderSid} constants. Zero mean no limitations on staff gender.</dd> <dt>string <var>k_service</var></dt><dd>Service key.</dd> <dt>string <var>k_staff</var></dt><dd>Staff key. Zero means any available staff.</dd> </dl> For multiple appointment booking ({@link Wl_Appointment_Book_Schedule_DayTime73Model.is_back_to_back} == `false`): array of previously booked appointments. Converted to JSON string to be usable as model key. Each item is an array with next structure: <dl> <dt>string <var>dtl_date</var></dt><dd>Local date and time of appointment start in MySQL format.</dd> <dt>int <var>i_duration</var></dt><dd>Duration of the appointment in minutes.</dd> <dt>string <var>k_service</var></dt><dd>Service key.</dd> </dl>
  * @param {boolean} is_staff <tt>true</tt> if the request is made by the staff member (booking policy restrictions are ignored).
  * Otherwise, <tt>false</tt> if the request is made by the client (booking policy restrictions are applied).
  * @param {boolean} is_back_to_back Determines whether multiple appointments are booked in the back-to-back mode.
  * @param {?string} k_timezone The time zone key. This will be `null` if not set yet or when using the client's time zone.
- * @returns {Wl_Appointment_Book_Schedule_DayTimeModel}
+ * @returns {Wl_Appointment_Book_Schedule_DayTime73Model}
  * @see WlSdk_ModelAbstract.instanceGet()
  */
