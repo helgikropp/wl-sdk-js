@@ -429,7 +429,7 @@ function Wl_Appointment_Book_Schedule_CalendarModel()
   this.changeInit();
 }
 
-Core_Spa_Model.extend(Wl_Appointment_Book_Schedule_CalendarModel);
+WlSdk_ModelAbstract.extend(Wl_Appointment_Book_Schedule_CalendarModel);
 
 /**
  * @inheritDoc
