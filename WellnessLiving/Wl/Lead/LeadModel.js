@@ -1,5 +1,5 @@
 /**
- * An endpoint that gets information from the Lead Capture widget and saves a new user’s information.
+ * Gets information from the Lead Capture widget and saves a new user’s information.
  *
  * A user can be added to a second business by adding them first as a lead. If your business uses Enterprise Cloud,
  * there may be a restriction where clients can only be members in one enterprise location (travellers in all
@@ -36,7 +36,7 @@ function Wl_Lead_LeadModel()
    * </dl>
    *
    * @post post
-   * @type {{}}
+   * @type {string[]}
    */
   this.a_field_data = [];
 
@@ -159,6 +159,28 @@ function Wl_Lead_LeadModel()
   this.can_use_free_purchase = null;
 
   /**
+   * This will be `true` if the API is being used from the backend. Otherwise, this will be `false`.
+   *
+   * @post get
+   * @type {boolean}
+   */
+  this.is_backend = false;
+
+  /**
+   * `true` if newly created lead should be automatically signed in, `false` otherwise.
+   *
+   * Lead will not be signed in if:
+   * - email is used already for another existing user;
+   * - different user is signed in already.
+   *
+   * If lead is not signed in, then {@link Wl_Lead_LeadModel.text_sign_in_error} will contain an error message.
+   *
+   * @post post
+   * @type {boolean}
+   */
+  this.is_sing_in = false;
+
+  /**
    * The key of business to which the new user must be captured.
    *
    * @get get
@@ -171,7 +193,9 @@ function Wl_Lead_LeadModel()
    * Key of the lead source.
    *
    * Must be `null` if <var>text_lead_source</var> is set.
-   * If both parameters are empty, the {@link Wl_Lead_Source_LeadSourceSid.ENDPOINT} lead source will be used.
+   * If both parameters are empty, the {@link Wl_Mode_ModeSid.API} lead source will be used.
+   *
+   * {@link Wl_Lead_LeadSourceElementModel.LEAD_SOURCE_REPLACE_NONE} if Lead Source is to be unselected for the user.
    *
    * @post post,result
    * @type {?string}
@@ -205,7 +229,7 @@ function Wl_Lead_LeadModel()
    *
    * A new lead source will be created if it does not exist.
    * Must be `null` if <var>k_lead_source</var> is set.
-   * If both parameters are empty, the {@link Wl_Lead_Source_LeadSourceSid.ENDPOINT} lead source will be used.
+   * If both parameters are empty, the {@link Wl_Mode_ModeSid.API} lead source will be used.
    *
    * @post post
    * @type {?string}
@@ -213,7 +237,23 @@ function Wl_Lead_LeadModel()
   this.text_lead_source = null;
 
   /**
+   * An error code if the lead is not signed in after creation.
+   * This field is filled in the POST method.
+   *
+   * Possible values:
+   * - `email-exists` - the email is already used by another lead;
+   * - `different-user` - another user is signed in already.
+   *
+   * @post result
+   * @type {string}
+   */
+  this.text_sign_in_error = "";
+
+  /**
    * The key of the new user.
+   *
+   * Typing is not added because the variable is an integer.
+   * Specifying typing may break third party integration.
    *
    * @post result
    * @type {string}
@@ -239,5 +279,5 @@ WlSdk_ModelAbstract.extend(Wl_Lead_LeadModel);
  */
 Wl_Lead_LeadModel.prototype.config=function()
 {
-  return {"a_field": {"a_field_data": {"post": {"post": true}},"a_field_list": {"get": {"result": true}},"a_skin": {"get": {"result": true}},"can_use_free_purchase": {"get": {"result": true},"post": {"get": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_lead_source": {"post": {"post": true,"result": true}},"k_skin": {"get": {"get": true},"post": {"get": true}},"s_captcha": {"post": {"post": true}},"text_lead_source": {"post": {"post": true}},"uid": {"post": {"result": true}},"url_captcha": {"get": {"result": true}}}};
+  return {"a_field": {"a_field_data": {"post": {"post": true}},"a_field_list": {"get": {"result": true}},"a_skin": {"get": {"result": true}},"can_use_free_purchase": {"get": {"result": true},"post": {"get": true}},"is_backend": {"post": {"get": true}},"is_sing_in": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_lead_source": {"post": {"post": true,"result": true}},"k_skin": {"get": {"get": true},"post": {"get": true}},"s_captcha": {"post": {"post": true}},"text_lead_source": {"post": {"post": true}},"text_sign_in_error": {"post": {"result": true}},"uid": {"post": {"result": true}},"url_captcha": {"get": {"result": true}}}};
 };
