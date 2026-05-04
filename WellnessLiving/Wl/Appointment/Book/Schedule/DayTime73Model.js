@@ -1,56 +1,63 @@
 /**
- * An endpoint that retrieves a list of information about the booking schedule for available appointments.
+ * Retrieves a list of information about the booking schedule for available appointments.
+ *
+ * This model is generated automatically based on API.
  *
  * @augments WlSdk_ModelAbstract
  * @constructor
- * @deprecated Use {@link Wl_Appointment_Book_Schedule_DayTime73Model}
+ * @see Wl\Appointment\Book\Schedule\DayTime73Api
  */
-function Wl_Appointment_Book_Schedule_DayTimeModel()
+function Wl_Appointment_Book_Schedule_DayTime73Model()
 {
   WlSdk_ModelAbstract.apply(this);
 
   /**
    * @inheritDoc
    */
-  this._s_key = "id_gender_staff,k_staff,dt_date,k_location,k_service,k_resource,i_index,i_duration,uid,is_unavailable,s_product,s_appointment,is_staff,is_back_to_back,k_timezone";
+  this._s_key = "id_gender_staff,dt_date,k_location,k_service,k_resource,i_index,i_duration,uid,is_unavailable,s_product,s_appointment,is_staff,is_back_to_back,k_timezone,k_class_tab,is_tab_all,uid_staff";
 
   /**
-   * @typedef {{}} Wl_Appointment_Book_Schedule_DayTimeModel_a_time
-   * @property {string} dt_date The calendar date.
-   * @property {number} i_count The number of clients that have already booked the appointment.
-   * @property {number} i_time The integer representation of the appointment schedule time in minutes from midnight.
-   * @property {boolean} is_waitlist Determines whether the appointment can only be booked in a wait list.
+   * @typedef {{}} Wl_Appointment_Book_Schedule_DayTime73Model_a_time
+   * @property {string} dt_date Date of the calendar.
+   * @property {number} i_count Amount of clients that have already booked this appointment.
+   * @property {number} i_time Integer representation of appointment schedule time.
+   * @property {boolean} is_waitlist Whether the appointment can be booked only in a wait list.
    * @property {string} k_staff @deprecated If this time is already occupied by any client and staff member (but service capacity is not exhausted),
    *   this key contains key of staff member (primary key in {@link \RsStaffSql} table). Otherwise - `0`.
-   * @property {string} s_title The string representation of appointment schedule time.
+   * @property {string} uid_staff If this time is already occupied by any client and staff member (but service capacity is not exhausted),
+   *   this key contains user key of staff member (primary key in {@link \PassportLoginSql} table). Otherwise - `0`.
+   * @property {string} s_title String representation of appointment schedule time.
    */
 
   /**
    * An array with a schedule of available appointment booking times.
    * <dl>
    *   <dt>string <var>dt_date</var></dt>
-   *   <dd>The calendar date.</dd>
+   *   <dd>Date of the calendar.</dd>
    *   <dt>int <var>i_count</var></dt>
-   *   <dd>The number of clients that have already booked the appointment.</dd>
+   *   <dd>Amount of clients that have already booked this appointment.</dd>
    *   <dt>int <var>i_time</var></dt>
-   *   <dd>The integer representation of appointment schedule time.</dd>
+   *   <dd>Integer representation of appointment schedule time.</dd>
    *   <dt>bool <var>is_waitlist</var></dt>
-   *   <dd>Determines whether the appointment can only be booked in a wait list.</dd>
+   *   <dd>Whether the appointment can be booked only in a wait list.</dd>
    *   <dt>string <var>k_staff</var></dt>
    *   <dd>@deprecated If this time is already occupied by any client and staff member (but service capacity is not exhausted),
    *       this key contains key of staff member (primary key in {@link \RsStaffSql} table). Otherwise - `0`.</dd>
+   *   <dt>string <var>uid_staff</var></dt>
+   *   <dd>If this time is already occupied by any client and staff member (but service capacity is not exhausted),
+   *       this key contains user key of staff member (primary key in {@link \PassportLoginSql} table). Otherwise - `0`.</dd>
    *   <dt>string <var>s_title</var></dt>
    *   <dd>String representation of appointment schedule time.</dd>
    * </dl>
    *
    * @get result
-   * @type {Wl_Appointment_Book_Schedule_DayTimeModel_a_time}
+   * @type {Wl_Appointment_Book_Schedule_DayTime73Model_a_time}
    */
   this.a_time = undefined;
 
   /**
-   * A list of client keys to use for booking appointments.
-   * Empty values in this list signify walk-ins.
+   * List of user keys to book appointments.
+   * There may be empty values in this list, which means that this is a walk-in.
    *
    * @get get
    * @post get
@@ -59,7 +66,7 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
   this.a_uid = [];
 
   /**
-   * The date to show the available appointment booking schedule for.
+   * The date to show the available appointment booking schedule.
    *
    * @get get,result
    * @type {string}
@@ -67,8 +74,8 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
   this.dt_date = "";
 
   /**
-   * The duration of the asset booking or custom appointment duration in minutes. This will be zero for services with predefined durations.
-   * For back-to-back bookings, this will display the custom duration of the first appointment.
+   * The duration of the asset booking or custom appointment duration in minutes. Zero in case of service predefined duration.
+   * In case of back-to-back booking - custom duration of first appointment.
    *
    * @get get
    * @type {number}
@@ -76,7 +83,7 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
   this.i_duration = 0;
 
   /**
-   * An index of the selected asset. This will be `0` for a service booking or asset that isn't on the layout.
+   * An index of the selected asset. `0` for booking of service or if asset is not on layout.
    *
    * @get get
    * @type {number}
@@ -85,8 +92,8 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
 
   /**
    * The ID of the staff member's gender.
-   * For back-to-back bookings, this will display the gender of the staff member conducting the first appointment.
-   * One of the {@link Wl_Gender_GenderSid} constants. This will be `0` if no limitations on staff member gender are set.
+   * In case of back-to-back booking - staff gender of first appointment.
+   * One of the {@link AGenderSid} constants. `0` means no limitations on staff gender.
    *
    * @get get
    * @type {number}
@@ -186,18 +193,6 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
   this.k_service = "0";
 
   /**
-   * TODO wl-80298: remove this property when external developers confirm that they do not use it.
-   * The staff member key used for showing the available appointment booking schedule.
-   * In case of back-to-back booking - staff key of first appointment.
-   * `0` means any available staff.
-   *
-   * @deprecated This property will be removed in the future. Use {@link Wl_Appointment_Book_Schedule_DayTimeModel.uid_staff} instead.
-   * @get get
-   * @type {string}
-   */
-  this.k_staff = "0";
-
-  /**
    * Key of timezone.
    *
    * `null` if not set then use default timezone client. See {@link Wl\Profile\Timezone\ProfileTimezone::createInBusiness()}.
@@ -266,21 +261,20 @@ function Wl_Appointment_Book_Schedule_DayTimeModel()
   this.changeInit();
 }
 
-WlSdk_ModelAbstract.extend(Wl_Appointment_Book_Schedule_DayTimeModel);
+WlSdk_ModelAbstract.extend(Wl_Appointment_Book_Schedule_DayTime73Model);
 
 /**
  * @inheritDoc
  */
-Wl_Appointment_Book_Schedule_DayTimeModel.prototype.config=function()
+Wl_Appointment_Book_Schedule_DayTime73Model.prototype.config=function()
 {
-  return {"a_field": {"a_time": {"get": {"result": true}},"a_uid": {"get": {"get": true},"post": {"get": true}},"dt_date": {"get": {"get": true,"result": true}},"i_duration": {"get": {"get": true}},"i_index": {"get": {"get": true}},"id_gender_staff": {"get": {"get": true}},"is_back_to_back": {"get": {"get": true}},"is_staff": {"get": {"get": true}},"is_tab_all": {"get": {"get": true}},"is_unavailable": {"get": {"get": true}},"is_waitlist": {"get": {"result": true}},"is_walk_in": {"get": {"get": true},"post": {"get": true}},"k_class_tab": {"get": {"get": true}},"k_location": {"get": {"get": true,"result": true},"post": {"get": true}},"k_resource": {"get": {"get": true}},"k_service": {"get": {"get": true}},"k_staff": {"get": {"get": true}},"k_timezone": {"get": {"get": true}},"s_appointment": {"get": {"get": true}},"s_product": {"get": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}},"uid_staff": {"get": {"get": true}}}};
+  return {"a_field": {"a_time": {"get": {"result": true}},"a_uid": {"get": {"get": true},"post": {"get": true}},"dt_date": {"get": {"get": true,"result": true}},"i_duration": {"get": {"get": true}},"i_index": {"get": {"get": true}},"id_gender_staff": {"get": {"get": true}},"is_back_to_back": {"get": {"get": true}},"is_staff": {"get": {"get": true}},"is_tab_all": {"get": {"get": true}},"is_unavailable": {"get": {"get": true}},"is_waitlist": {"get": {"result": true}},"is_walk_in": {"get": {"get": true},"post": {"get": true}},"k_class_tab": {"get": {"get": true}},"k_location": {"get": {"get": true,"result": true},"post": {"get": true}},"k_resource": {"get": {"get": true}},"k_service": {"get": {"get": true}},"k_timezone": {"get": {"get": true}},"s_appointment": {"get": {"get": true}},"s_product": {"get": {"get": true}},"uid": {"get": {"get": true},"post": {"get": true}},"uid_staff": {"get": {"get": true}}}};
 };
 
 /**
  * @function
- * @name Wl_Appointment_Book_Schedule_DayTimeModel.instanceGet
+ * @name Wl_Appointment_Book_Schedule_DayTime73Model.instanceGet
  * @param {number} id_gender_staff The ID of the staff member's gender. In case of back-to-back booking - staff gender of first appointment. One of the {@link AGenderSid} constants. `0` means no limitations on staff gender.
- * @param {string} k_staff TODO wl-80298: remove this property when external developers confirm that they do not use it. The staff member key used for showing the available appointment booking schedule. In case of back-to-back booking - staff key of first appointment. `0` means any available staff.
  * @param {string} dt_date The date to show the available appointment booking schedule.
  * @param {string} k_location Location to show available appointment booking schedule.
  * @param {string} k_service The service key used for showing the available appointment booking schedule. In case of back-to-back booking - service key of first appointment.
@@ -297,6 +291,6 @@ Wl_Appointment_Book_Schedule_DayTimeModel.prototype.config=function()
  * @param {?string} k_class_tab Current booking tab. Only used for asset booking with "Allow clients to select a date and time, then the available asset" booking policy enabled. Cannot be set simultaneously with {DayTimeModel.is_tab_all}.
  * @param {boolean} is_tab_all `true` - search in all tabs. `false` - search only for the selected bookable tab. Cannot be set simultaneously with {DayTimeModel.k_class_tab}.
  * @param {string} uid_staff The staff user key used for showing the available appointment booking schedule. In case of back-to-back booking - staff user key of first appointment. `0` means any available staff.
- * @returns {Wl_Appointment_Book_Schedule_DayTimeModel}
+ * @returns {Wl_Appointment_Book_Schedule_DayTime73Model}
  * @see WlSdk_ModelAbstract.instanceGet()
  */
