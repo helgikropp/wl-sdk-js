@@ -68,7 +68,7 @@ function Wl_Staff_StaffView_StaffViewModel()
 
   /**
    * @typedef {{}} Wl_Staff_StaffView_StaffViewModel_a_result_list_a_class_day_a_staff
-   * @property {number} id_gender The staff member's gender. One of the {@link AGenderSid} constants.
+   * @property {number} id_gender The staff member's gender. One of the {@link Wl_Gender_GenderSid} constants.
    * @property {string} s_biography A description of the staff member. This description can include HTML tags.
    * @property {string} s_family The staff member surname.
    * @property {string} s_name The staff member first name.
@@ -113,7 +113,7 @@ function Wl_Staff_StaffView_StaffViewModel()
    * @property {Wl_Staff_StaffView_StaffViewModel_a_result_list_a_class_day_a_staff} a_staff Staff information:
    * <dl>
    *   <dt>int <tt>id_gender</tt></dt>
-   *   <dd>The staff member's gender. One of the {@link AGenderSid} constants.</dd>
+   *   <dd>The staff member's gender. One of the {@link Wl_Gender_GenderSid} constants.</dd>
    *   <dt>string <tt>s_biography</tt></dt>
    *   <dd>A description of the staff member. This description can include HTML tags.</dd>
    *   <dt>string <tt>s_family</tt></dt>
@@ -154,7 +154,7 @@ function Wl_Staff_StaffView_StaffViewModel()
    *     Staff information:
    *     <dl>
    *       <dt>int <var>id_gender</var></dt>
-   *       <dd>The staff member's gender. One of the {@link AGenderSid} constants.</dd>
+   *       <dd>The staff member's gender. One of the {@link Wl_Gender_GenderSid} constants.</dd>
    *       <dt>string <var>s_biography</var></dt>
    *       <dd>A description of the staff member. This description can include HTML tags.</dd>
    *       <dt>string <var>s_family</var></dt>
@@ -178,7 +178,7 @@ function Wl_Staff_StaffView_StaffViewModel()
   /**
    * @typedef {{}} Wl_Staff_StaffView_StaffViewModel_a_staff
    * @property {{}} a_photo Staff`s photo. See {@link RsStaffImage::data()}.
-   * @property {number} id_gender The staff member's gender. One of the {@link AGenderSid} constants.
+   * @property {number} id_gender The staff member's gender. One of the {@link Wl_Gender_GenderSid} constants.
    * @property {string} k_location Staff`s current location.
    * @property {string} s_biography A description of the staff member. This description can include HTML tags.
    * @property {string} s_family The staff member surname.
@@ -195,7 +195,7 @@ function Wl_Staff_StaffView_StaffViewModel()
    *   <dt>array <var>a_photo</var></dt>
    *   <dd>Staff`s photo. See {@link RsStaffImage::data()}.</dd>
    *   <dt>int <var>id_gender</var></dt>
-   *   <dd>The staff member's gender. One of the {@link AGenderSid} constants.</dd>
+   *   <dd>The staff member's gender. One of the {@link Wl_Gender_GenderSid} constants.</dd>
    *   <dt>string <var>k_location</var></dt>
    *   <dd>Staff`s current location.</dd>
    *   <dt>string <var>s_biography</var></dt>

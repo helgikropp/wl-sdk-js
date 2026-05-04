@@ -144,7 +144,7 @@ function Wl_Quiz_QuizElementModel()
    * New structure:
    * Each element key has the format `[id_purchase_item]::[k_id]`, where: <dl>
    *   <dt>int <var>id_purchase_item</var></dt>
-   *   <dd>The ID of the purchase item. One of the {@link RsPurchaseItemSid} constants.</dd>
+   *   <dd>The ID of the purchase item. One of the {@link Wl_Purchase_Item_ItemSid} constants.</dd>
    *   <dt>string <var>k_id</var></dt>
    *   <dd>The item key. This depends on <var>id_purchase_item</var> of this array.</dd>
    * </dl>

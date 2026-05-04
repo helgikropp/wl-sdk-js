@@ -27,6 +27,7 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    *  * Installment is a division of the final amount (with taxes and discounts), of some purchase option, into N parts.
    * @property {string} [k_reward_prize] The key of the reward prize.
    *  Not empty only if the user wants to redeem prize and use it to pay for a visit.
+   * @property {string} uid The key of the user for whom the purchase item is being bought.
    */
 
   /**
@@ -57,6 +58,8 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    *      <dt>string [`k_reward_prize`]</dt>
    *      <dd>The key of the reward prize.
    *      Not empty only if the user wants to redeem prize and use it to pay for a visit.</dd>
+   *      <dt>string `uid`</dt>
+   *      <dd>The key of the user for whom the purchase item is being bought.</dd>
    *  </dl>
    *
    * @get get
@@ -83,6 +86,14 @@ function Wl_Book_Process_Purchase_PurchaseElementGroupModel()
    * @type {?string}
    */
   this.dtu_date = null;
+
+  /**
+   * The key of the session to check for booking availability.
+   *
+   * @get get
+   * @type {string}
+   */
+  this.k_class_period = "0";
 
   /**
    * The key of the location in which the purchase is made.
@@ -175,5 +186,5 @@ WlSdk_ModelAbstract.extends(Wl_Book_Process_Purchase_PurchaseElementGroupModel);
  */
 Wl_Book_Process_Purchase_PurchaseElementGroupModel.prototype.config=function()
 {
-  return {"a_field": {"a_purchase_item": {"get": {"get": true}},"a_tax": {"get": {"result": true}},"dtu_date": {"get": {"get": true}},"k_location": {"get": {"get": true}},"m_cost": {"get": {"result": true}},"m_discount": {"get": {"result": true}},"m_discount_code": {"get": {"result": true}},"m_discount_login": {"get": {"result": true}},"m_price": {"get": {"result": true}},"m_subtotal": {"get": {"result": true}},"m_tax": {"get": {"result": true}},"text_discount_code": {"get": {"get": true}},"uid": {"get": {"get": true}}}};
+  return {"a_field": {"a_purchase_item": {"get": {"get": true}},"a_tax": {"get": {"result": true}},"dtu_date": {"get": {"get": true}},"k_class_period": {"get": {"get": true}},"k_location": {"get": {"get": true}},"m_cost": {"get": {"result": true}},"m_discount": {"get": {"result": true}},"m_discount_code": {"get": {"result": true}},"m_discount_login": {"get": {"result": true}},"m_price": {"get": {"result": true}},"m_subtotal": {"get": {"result": true}},"m_tax": {"get": {"result": true}},"text_discount_code": {"get": {"get": true}},"uid": {"get": {"get": true}}}};
 };

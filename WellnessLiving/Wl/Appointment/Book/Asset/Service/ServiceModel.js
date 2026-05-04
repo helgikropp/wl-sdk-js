@@ -36,98 +36,21 @@ function Wl_Appointment_Book_Asset_Service_ServiceModel()
   /**
    * @typedef {{}} Wl_Appointment_Book_Asset_Service_ServiceModel_a_resource_type_a_resource
    * @property {{}} a_image The asset's image data. See {@link RsResourceImage::data()} for details.
-   * @property {boolean} is_available If `true`, then this asset has at least one free unit.
-   * If `false`, then this asset has no free units.
+   * @property {number} i_quantity Asset quantity.
+   * @property {boolean} is_available Whether this asset has at least one free unit.
    * @property {string} k_resource The asset key.
    * @property {string} s_resource The asset title.
    */
   /**
    * @typedef {{}} Wl_Appointment_Book_Asset_Service_ServiceModel_a_resource_type
-   * @property {Wl_Appointment_Book_Asset_Service_ServiceModel_a_resource_type_a_resource[]} a_resource A list of resources. Every element has the following keys:
-   * <dl>
-   *   <dt>
-   *     array <tt>a_image</tt>
-   *   </dt>
-   *   <dd>
-   *     The asset's image data. See {@link RsResourceImage::data()} for details.
-   *   </dd>
-   *   <dt>
-   *     bool <tt>is_available</tt>
-   *   </dt>
-   *   <dd>
-   *     If `true`, then this asset has at least one free unit.
-   *     If `false`, then this asset has no free units.
-   *   </dd>
-   *   <dt>
-   *     string <tt>k_resource</tt>
-   *   </dt>
-   *   <dd>
-   *     The asset key.
-   *   </dd>
-   *   <dt>
-   *     string <tt>s_resource</tt>
-   *   </dt>
-   *   <dd>
-   *     The asset title.
-   *   </dd>
-   * </dl>
-   * @property {?string} k_resource_layout The asset's layout key.
-   * This will be `null` if the asset category has no layout.
+   * @property {Wl_Appointment_Book_Asset_Service_ServiceModel_a_resource_type_a_resource[]} a_resource A list of resources.
+   * @property {?string} k_resource_layout The asset's layout key. This will be `null` if the asset category has no layout.
    * @property {string} s_resource_type The title of asset category.
    */
 
   /**
    * A list of assets required for the service booking.
    * Keys refer the asset category key(s).
-   * Values refer to sub-arrays with next structure:
-   * <dl>
-   *   <dt>
-   *     array[] <var>a_resource</var>
-   *   </dt>
-   *   <dd>
-   *     A list of resources. Every element has the following keys:
-   *     <dl>
-   *       <dt>
-   *         array <var>a_image</var>
-   *       </dt>
-   *       <dd>
-   *         The asset's image data. See {@link RsResourceImage::data()} for details.
-   *       </dd>
-   *       <dt>
-   *         bool <var>is_available</var>
-   *       </dt>
-   *       <dd>
-   *         If `true`, then this asset has at least one free unit.
-   *         If `false`, then this asset has no free units.
-   *       </dd>
-   *       <dt>
-   *         string <var>k_resource</var>
-   *       </dt>
-   *       <dd>
-   *         The asset key.
-   *       </dd>
-   *       <dt>
-   *         string <var>s_resource</var>
-   *       </dt>
-   *       <dd>
-   *         The asset title.
-   *       </dd>
-   *     </dl>
-   *   </dd>
-   *   <dt>
-   *     string|null <var>k_resource_layout</var>
-   *   </dt>
-   *   <dd>
-   *     The asset's layout key.
-   *     This will be `null` if the asset category has no layout.
-   *   </dd>
-   *   <dt>
-   *     string <var>s_resource_type</var>
-   *   </dt>
-   *   <dd>
-   *     The title of asset category.
-   *   </dd>
-   * </dl>
    *
    * @get result
    * @type {Wl_Appointment_Book_Asset_Service_ServiceModel_a_resource_type}
@@ -190,6 +113,16 @@ function Wl_Appointment_Book_Asset_Service_ServiceModel()
   this.is_show_unavailable_assets = false;
 
   /**
+   * The appointment booking key to ignore when {@link Wl_Appointment_Book_Asset_Service_ServiceModel.a_resource_busy} is derived.
+   *
+   * `null` if no appointment booking must be ignored.
+   *
+   * @get get
+   * @type {?string}
+   */
+  this.k_appointment_ignore = null;
+
+  /**
    * The selected location key.
    *
    * @get get
@@ -233,7 +166,7 @@ WlSdk_ModelAbstract.extend(Wl_Appointment_Book_Asset_Service_ServiceModel);
  */
 Wl_Appointment_Book_Asset_Service_ServiceModel.prototype.config=function()
 {
-  return {"a_field": {"a_resource_busy": {"get": {"result": true}},"a_resource_type": {"get": {"result": true}},"can_book_unavailable_assets": {"get": {"result": true}},"dt_start": {"get": {"get": true}},"id_mode": {"get": {"get": true}},"is_backend": {"get": {"get": true}},"is_grid_any": {"get": {"get": true}},"is_show_unavailable_assets": {"get": {"get": true}},"k_location": {"get": {"get": true}},"k_service": {"get": {"get": true}},"k_timezone": {"get": {"get": true}},"uid": {"get": {"get": true}}}};
+  return {"a_field": {"a_resource_busy": {"get": {"result": true}},"a_resource_type": {"get": {"result": true}},"can_book_unavailable_assets": {"get": {"result": true}},"dt_start": {"get": {"get": true}},"id_mode": {"get": {"get": true}},"is_backend": {"get": {"get": true}},"is_grid_any": {"get": {"get": true}},"is_show_unavailable_assets": {"get": {"get": true}},"k_appointment_ignore": {"get": {"get": true}},"k_location": {"get": {"get": true}},"k_service": {"get": {"get": true}},"k_timezone": {"get": {"get": true}},"uid": {"get": {"get": true}}}};
 };
 
 /**

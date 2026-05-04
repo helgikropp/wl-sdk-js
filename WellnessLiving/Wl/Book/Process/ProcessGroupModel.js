@@ -16,37 +16,53 @@ function Wl_Book_Process_ProcessGroupModel()
    * List of errors that occurred during booking.
    *
    * @post result
-   * @type {string[]}
+   * @type {{}[]}
    */
   this.a_book_error = [];
 
   /**
-   * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item_a_resource
+   * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item_a_repeat_a_resource
    * @property {number} i_index Order number of the asset.
    * @property {number} k_resource Asset primary key.
    */
   /**
+   * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item_a_repeat
+   * @property {number[]} a_day The days of week when the session repeats. One of the {@link ADateWeekSid} constants.
+   *     Should be passed for any type of repetition.
+   * @property {string} [dt_from] Date to start recurring booking.
+   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   * @property {string} [dt_to] Date to complete recurring booking.
+   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   * @property {number} [i_count] The number of occurrences after which the appointment's repeat cycle stops.
+   *      Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
+   *      Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
+   * @property {number} i_duration Count of days\weeks\months between recurring bookings.
+   * @property {number} id_duration The measurement unit of `i_duration`. One of the {@link ADurationSid} constants.
+   *     Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
+   * @property {number} id_repeat_end Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.
+   */
+  /**
    * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item
    * @property {number} [i_count] Number of options to purchase. Specify only if you want to pay a class booking by Drop-In.
-   * @property {string} [id_purchase_item] Kind of option to purchase. One of {@link Wl_Purchase_Item_ItemSid} constants.
-   *         Specify only if you want to purchase a new option.
+   * @property {number} [id_purchase_item] Kind of option to purchase. One of {@link Wl_Purchase_Item_ItemSid} constants.
+   *          Specify only if you want to purchase a new option.
    * @property {boolean} [is_renew] `true` if you want to enable auto-renewal for new purchase option. `false` otherwise.
-   *         Specify only if you want to purchase a new option.
+   *          Specify only if you want to purchase a new option.
+   * @property {boolean} [is_owner] `true` if client is owner of this purchase option.
+   *          This means that this purchase option will be purchased for this client, even if another client
+   *          can share a similar purchase option.
    * @property {string} [k_id] Primary key of option to purchase.
-   *         Specify only if you want to purchase a new option.
+   *          Specify only if you want to purchase a new option.
    * @property {string} [k_login_prize] Primary key of user's prize.
-   *         Specify if you want to pay by user's prize.
-   * @property {string} [k_login_promotion] Primary key of user's purchase option.
-   *         Specify only if you want to pay by already purchased option.
+   *          Specify if you want to pay by user's prize.
    * @property {string} [k_reward_prize] Primary key of a prize to redeem.
-   *         Specify if you want to redeem a prize for payment.
+   *          Specify if you want to redeem a prize for payment.
    * @property {string} [s_signature] Signature of the client in base64 format.
-   *         Specify only if you want to buy a purchase option that requires signature.
+   *          Specify only if you want to buy a purchase option that requires signature.
    */
   /**
    * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_client_a_event_session
    * @property {string} dtu_date Session date/time.
-   * @property {boolean} [is_wait_list_unpaid=false] `true` to book this session into waitlist, `false` to book in common way.
    * @property {string} k_class_period Session primary key.
    */
   /**
@@ -56,83 +72,127 @@ function Wl_Book_Process_ProcessGroupModel()
    *     <dl>
    *         <dt>string `dtu_date`</dt>
    *         <dd>Session date/time.</dd>
-   *         <dt>bool [`is_wait_list_unpaid`=false]</dt>
-   *         <dd>`true` to book this session into waitlist, `false` to book in common way.</dd>
    *         <dt>string `k_class_period`</dt>
-     *         <dd>Session primary key.</dd>
+   *         <dd>Session primary key.</dd>
    *     </dl>
-   * @property {Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item} [a_purchase_item] Purchase option information. Required if the service requires online payment:
+   * @property {Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item[]} [a_purchase_item] Purchase option information. Required if the service requires online payment. Elements have next keys:
    *     <dl>
    *         <dt>
-   *             int [`i_count`]
-   *         </dt>
-   *         <dd>
-   *             Number of options to purchase. Specify only if you want to pay a class booking by Drop-In.
-   *         </dd>
-   *         <dt>
-   *             string [`id_purchase_item`]
-   *         </dt>
-   *         <dd>
-     *             Kind of option to purchase. One of {@link Wl_Purchase_Item_ItemSid} constants.
-   *             Specify only if you want to purchase a new option.
-   *         </dd>
-   *         <dt>
-   *             bool [`is_renew`]
-   *         </dt>
-   *         <dd>
-   *             `true` if you want to enable auto-renewal for new purchase option. `false` otherwise.
-   *             Specify only if you want to purchase a new option.
-   *         </dd>
-   *         <dt>
-   *             string [`k_id`]
-   *         </dt>
-   *         <dd>
-   *             Primary key of option to purchase.
-   *             Specify only if you want to purchase a new option.
-   *         </dd>
-   *         <dt>
-   *             string [`k_login_prize`]
-   *         </dt>
-   *         <dd>
-     *             Primary key of user's prize.
-   *             Specify if you want to pay by user's prize.
-   *         </dd>
-   *         <dt>
-   *             string [`k_login_promotion`]
-   *         </dt>
-   *         <dd>
-     *             Primary key of user's purchase option.
-   *             Specify only if you want to pay by already purchased option.
-   *         </dd>
-   *         <dt>
-   *             string [`k_reward_prize`]
-   *         </dt>
-   *         <dd>
-   *             Specify if you want to redeem a prize for payment.
-   *         </dd>
-   *         <dt>
-   *             string [`s_signature`]
-   *         </dt>
-   *         <dd>
-   *             Signature of the client in base64 format.
-   *             Specify only if you want to buy a purchase option that requires signature.
-   *         </dd>
+   *              int [`i_count`]
+   *          </dt>
+   *          <dd>
+   *              Number of options to purchase. Specify only if you want to pay a class booking by Drop-In.
+   *          </dd>
+   *          <dt>
+   *              int [`id_purchase_item`]
+   *          </dt>
+   *          <dd>
+   *              Kind of option to purchase. One of {@link Wl_Purchase_Item_ItemSid} constants.
+   *              Specify only if you want to purchase a new option.
+   *          </dd>
+   *          <dt>
+   *              bool [`is_renew`]
+   *          </dt>
+   *          <dd>
+   *              `true` if you want to enable auto-renewal for new purchase option. `false` otherwise.
+   *              Specify only if you want to purchase a new option.
+   *          </dd>
+   *          <dt>
+   *              bool [`is_owner`]
+   *          </dt>
+   *          <dd>
+   *              `true` if client is owner of this purchase option.
+   *              This means that this purchase option will be purchased for this client, even if another client
+   *              can share a similar purchase option.
+   *          </dd>
+   *          <dt>
+   *              string [`k_id`]
+   *          </dt>
+   *          <dd>
+   *              Primary key of option to purchase.
+   *              Specify only if you want to purchase a new option.
+   *          </dd>
+   *          <dt>
+   *              string [`k_login_prize`]
+   *          </dt>
+   *          <dd>
+   *              Primary key of user's prize.
+   *              Specify if you want to pay by user's prize.
+   *          </dd>
+   *          <dt>
+   *              string [`k_reward_prize`]
+   *          </dt>
+   *          <dd>
+   *              Specify if you want to redeem a prize for payment.
+   *          </dd>
+   *          <dt>
+   *              string [`s_signature`]
+   *          </dt>
+   *          <dd>
+   *              Signature of the client in base64 format.
+   *              Specify only if you want to buy a purchase option that requires signature.
+   *          </dd>
    *     </dl>
    * @property {{}} [a_quiz_response] Answers for questions. Required if the service requires answers for questions.
-     *     Keys are quiz keys.
-     *     Values are response keys.
-   * @property {Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item_a_resource[]} [a_resource] Asset information. Required if the service requires asset booking. Each element has next keys:
+   *     Keys are quiz keys.
+   *     Values are response keys.
+   * @property {Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item_a_repeat} [a_repeat] Recurring booking configuration:
+   *     <dl>
+   *       <dt>int[] `a_day`</dt>
+   *       <dd>
+   *         The days of week when the session repeats. One of the {@link ADateWeekSid} constants.
+   *         Should be passed for any type of repetition.
+   *       </dd>
+   *       <dt>
+   *         string [`dt_from`]
+   *       </dt>
+   *       <dd>
+   *         Date to start recurring booking.
+   *         Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   *       </dd>
+   *       <dt>
+   *         string [`dt_to`]
+   *       </dt>
+   *       <dd>
+   *         Date to complete recurring booking.
+   *         Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   *       </dd>
+   *       <dt>
+   *          int [`i_count`]
+   *        </dt>
+   *        <dd>
+   *          The number of occurrences after which the appointment's repeat cycle stops.
+   *          Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
+   *          Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
+   *        </dd>
+   *       <dt>int `i_duration`</dt>
+   *       <dd>Count of days\weeks\months between recurring bookings.</dd>
+   *       <dt>
+   *         int `id_duration`
+   *       </dt>
+   *       <dd>
+   *         The measurement unit of `i_duration`. One of the {@link ADurationSid} constants.
+   *         Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
+   *       </dd>
+   *       <dt>int `id_repeat_end`</dt>
+   *       <dd>Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.</dd>
+   *     </dl>
+   *     You can test this key only in a case of `1` client.
+   * @property {Wl_Book_Process_ProcessGroupModel_a_client_a_event_session_a_purchase_item_a_repeat_a_resource[]} [a_resource] Asset information. Required if the service requires asset booking. Each element has next keys:
    *     <dl>
    *         <dt>int <tt>i_index</tt></dt>
    *         <dd>Order number of the asset.</dd>
    *         <dt>int <tt>k_resource</tt></dt>
      *         <dd>Asset primary key.</dd>
    *     </dl>
+   * @property {string} [k_login_promotion] Primary key of user's purchase option.
+   *     Specify only if you want to pay by already purchased option.
+   * @property {string} [k_session_pass] Session pass to be used to book a session.
+   * @property {string} uid User's primary key.
    */
 
   /**
    * List of clients to book.
-     * Each key is client's primary key.
    * Each value is an array with next keys:
    * <dl>
    *     <dt>
@@ -144,72 +204,71 @@ function Wl_Book_Process_ProcessGroupModel()
    *         <dl>
    *             <dt>string `dtu_date`</dt>
    *             <dd>Session date/time.</dd>
-   *             <dt>bool [`is_wait_list_unpaid`=false]</dt>
-   *             <dd>`true` to book this session into waitlist, `false` to book in common way.</dd>
    *             <dt>string `k_class_period`</dt>
-     *             <dd>Session primary key.</dd>
+   *             <dd>Session primary key.</dd>
    *         </dl>
    *     </dd>
    *     <dt>
-   *         array [`a_purchase_item`]
+   *         array[] [`a_purchase_item`]
    *     </dt>
    *     <dd>
-   *         Purchase option information. Required if the service requires online payment:
+   *         Purchase option information. Required if the service requires online payment. Elements have next keys:
    *         <dl>
    *             <dt>
-   *                 int [`i_count`]
-   *             </dt>
-   *             <dd>
-   *                 Number of options to purchase. Specify only if you want to pay a class booking by Drop-In.
-   *             </dd>
-   *             <dt>
-   *                 string [`id_purchase_item`]
-   *             </dt>
-   *             <dd>
-     *                 Kind of option to purchase. One of {@link Wl_Purchase_Item_ItemSid} constants.
-   *                 Specify only if you want to purchase a new option.
-   *             </dd>
-   *             <dt>
-   *                 bool [`is_renew`]
-   *             </dt>
-   *             <dd>
-   *                 `true` if you want to enable auto-renewal for new purchase option. `false` otherwise.
-   *                 Specify only if you want to purchase a new option.
-   *             </dd>
-   *             <dt>
-   *                 string [`k_id`]
-   *             </dt>
-   *             <dd>
-   *                 Primary key of option to purchase.
-   *                 Specify only if you want to purchase a new option.
-   *             </dd>
-   *             <dt>
-   *                 string [`k_login_prize`]
-   *             </dt>
-   *             <dd>
-     *                 Primary key of user's prize.
-   *                 Specify if you want to pay by user's prize.
-   *             </dd>
-   *             <dt>
-   *                 string [`k_login_promotion`]
-   *             </dt>
-   *             <dd>
-   *                 Primary key of user's purchase option.
-   *                 Specify only if you want to pay by already purchased option.
-   *             </dd>
-   *             <dt>
-   *                 string [`k_reward_prize`]
-   *             </dt>
-   *             <dd>
-   *                 Specify if you want to redeem a prize for payment.
-   *             </dd>
-   *             <dt>
-   *                 string [`s_signature`]
-   *             </dt>
-   *             <dd>
-   *                 Signature of the client in base64 format.
-   *                 Specify only if you want to buy a purchase option that requires signature.
-   *             </dd>
+   *                  int [`i_count`]
+   *              </dt>
+   *              <dd>
+   *                  Number of options to purchase. Specify only if you want to pay a class booking by Drop-In.
+   *              </dd>
+   *              <dt>
+   *                  int [`id_purchase_item`]
+   *              </dt>
+   *              <dd>
+   *                  Kind of option to purchase. One of {@link Wl_Purchase_Item_ItemSid} constants.
+   *                  Specify only if you want to purchase a new option.
+   *              </dd>
+   *              <dt>
+   *                  bool [`is_renew`]
+   *              </dt>
+   *              <dd>
+   *                  `true` if you want to enable auto-renewal for new purchase option. `false` otherwise.
+   *                  Specify only if you want to purchase a new option.
+   *              </dd>
+   *              <dt>
+   *                  bool [`is_owner`]
+   *              </dt>
+   *              <dd>
+   *                  `true` if client is owner of this purchase option.
+   *                  This means that this purchase option will be purchased for this client, even if another client
+   *                  can share a similar purchase option.
+   *              </dd>
+   *              <dt>
+   *                  string [`k_id`]
+   *              </dt>
+   *              <dd>
+   *                  Primary key of option to purchase.
+   *                  Specify only if you want to purchase a new option.
+   *              </dd>
+   *              <dt>
+   *                  string [`k_login_prize`]
+   *              </dt>
+   *              <dd>
+   *                  Primary key of user's prize.
+   *                  Specify if you want to pay by user's prize.
+   *              </dd>
+   *              <dt>
+   *                  string [`k_reward_prize`]
+   *              </dt>
+   *              <dd>
+   *                  Specify if you want to redeem a prize for payment.
+   *              </dd>
+   *              <dt>
+   *                  string [`s_signature`]
+   *              </dt>
+   *              <dd>
+   *                  Signature of the client in base64 format.
+   *                  Specify only if you want to buy a purchase option that requires signature.
+   *              </dd>
    *         </dl>
    *     </dd>
    *     <dt>
@@ -219,6 +278,53 @@ function Wl_Book_Process_ProcessGroupModel()
    *         Answers for questions. Required if the service requires answers for questions.
    *         Keys are quiz keys.
    *         Values are response keys.
+   *     </dd>
+   *     <dt>
+   *         array [`a_repeat`]
+   *     </dt>
+   *     <dd>
+   *         Recurring booking configuration:
+   *         <dl>
+   *           <dt>int[] `a_day`</dt>
+   *           <dd>
+   *             The days of week when the session repeats. One of the {@link ADateWeekSid} constants.
+   *             Should be passed for any type of repetition.
+   *           </dd>
+   *           <dt>
+   *             string [`dt_from`]
+   *           </dt>
+   *           <dd>
+   *             Date to start recurring booking.
+   *             Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   *           </dd>
+   *           <dt>
+   *             string [`dt_to`]
+   *           </dt>
+   *           <dd>
+   *             Date to complete recurring booking.
+   *             Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
+   *           </dd>
+   *           <dt>
+   *              int [`i_count`]
+   *            </dt>
+   *            <dd>
+   *              The number of occurrences after which the appointment's repeat cycle stops.
+   *              Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
+   *              Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
+   *            </dd>
+   *           <dt>int `i_duration`</dt>
+   *           <dd>Count of days\weeks\months between recurring bookings.</dd>
+   *           <dt>
+   *             int `id_duration`
+   *           </dt>
+   *           <dd>
+   *             The measurement unit of `i_duration`. One of the {@link ADurationSid} constants.
+   *             Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
+   *           </dd>
+   *           <dt>int `id_repeat_end`</dt>
+   *           <dd>Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.</dd>
+   *         </dl>
+   *         You can test this key only in a case of `1` client.
    *     </dd>
    *     <dt>
    *         array[] [`a_resource`]
@@ -232,6 +338,21 @@ function Wl_Book_Process_ProcessGroupModel()
    *             <dd>Asset primary key.</dd>
    *         </dl>
    *     </dd>
+   *     <dt>
+   *         string [`k_login_promotion`]
+   *     </dt>
+   *     <dd>
+   *         Primary key of user's purchase option.
+   *         Specify only if you want to pay by already purchased option.
+   *     </dd>
+   *     <dt>
+   *         string [`k_session_pass`]
+   *     </dt>
+   *     <dd>
+   *         Session pass to be used to book a session.
+   *     </dd>
+   *     <dt>string `uid`</dt>
+   *     <dd>User's primary key.</dd>
    * </dl>
    *
    * @post post
@@ -250,15 +371,15 @@ function Wl_Book_Process_ProcessGroupModel()
   /**
    * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_pay_form_a_pay_card_a_pay_address
    * @property {*} is_new Set this value to <tt>1</tt> to add a new payment address or to <tt>0</tt> to use a saved payment address.
-   * @property {*} k_geo_country The key of the country used for the payment address. Specify this to add a new address.
-   * @property {*} k_geo_region The key of the region for the payment address. Specify this to add a new address.
-   * @property {*} k_pay_address The key of the saved payment address. Specify this to use a saved address.
-   * @property {*} s_city The city used for the payment address. Specify this to add a new address.
-   * @property {*} s_name The card name. Specify this to add a new address.
-   * @property {*} s_phone The payment phone. Specify this to add a new address.
-   * @property {*} s_postal The postal code for the payment address. Specify this to add a new address.
-   * @property {*} s_street1 The payment address. Specify this to add a new address.
-   * @property {*} s_street2 The optional payment address. Specify this to add a new address.
+   * @property {string} [k_geo_country] The key of the country used for the payment address. Specify this to add a new address.
+   * @property {string} [k_geo_region] The key of the region for the payment address. Specify this to add a new address.
+   * @property {string} [k_pay_address] The key of the saved payment address. Specify this to use a saved address.
+   * @property {string} [s_city] The city used for the payment address. Specify this to add a new address.
+   * @property {string} [s_name] The card name. Specify this to add a new address.
+   * @property {string} [s_phone] The payment phone. Specify this to add a new address.
+   * @property {string} [s_postal] The postal code for the payment address. Specify this to add a new address.
+   * @property {string} [s_street1] The payment address. Specify this to add a new address.
+   * @property {string} [s_street2] The optional payment address. Specify this to add a new address.
    */
   /**
    * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_pay_form_a_pay_card
@@ -285,17 +406,17 @@ function Wl_Book_Process_ProcessGroupModel()
    *   <dt>string [<tt>s_street2</tt>]</dt>
    *   <dd>The optional payment address. Specify this to add a new address.</dd>
    * </dl>
-   * @property {*} i_csc The credit card CSC. Specify this to add a new card.
-   * @property {*} i_month The credit card expiration month. Specify this to add a new card.
-   * @property {*} i_year The credit card expiration year. Specify this to add a new card.
+   * @property {number} [i_csc] The credit card CSC. Specify this to add a new card.
+   * @property {number} [i_month] The credit card expiration month. Specify this to add a new card.
+   * @property {number} [i_year] The credit card expiration year. Specify this to add a new card.
    * @property {*} is_new Specify <tt>1</tt> to add a new card, or <tt>0</tt> to use a saved card.
-   * @property {*} k_pay_bank The key of the credit card. Specify this to use saved card.
-   * @property {*} s_comment Optional comment(s). Specify this to add a new card.
-   * @property {*} s_number The card number. Specify this to add a new card.
+   * @property {string} [k_pay_bank] The key of the credit card. Specify this to use saved card.
+   * @property {string} [s_comment] Optional comment(s). Specify this to add a new card.
+   * @property {string} [s_number] The card number. Specify this to add a new card.
    */
   /**
    * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_pay_form
-   * @property {Wl_Book_Process_ProcessGroupModel_a_pay_form_a_pay_card[]} a_pay_card The payment card information:
+   * @property {Wl_Book_Process_ProcessGroupModel_a_pay_form_a_pay_card} [a_pay_card] The payment card information:
    * <dl>
    *   <dt>
    *     array <tt>a_pay_address</tt>
@@ -369,11 +490,11 @@ function Wl_Book_Process_ProcessGroupModel()
    *   </dd>
    * </dl>
    * @property {string} f_amount The amount of money to withdraw with this payment source.
-   * @property {*} is_hide Whether payment method should be saved to user's account.
+   * @property {*} [is_hide] Whether payment method should be saved to user's account.
    * @property {*} is_save Determines whether this payment method is hidden.
    * @property {*} is_success Identifies whether this source was successfully charged.
-   * @property {*} m_surcharge The client-side calculated surcharge.
-   * @property {*} s_index The index of this form (optional).
+   * @property {string} [m_surcharge] The client-side calculated surcharge.
+   * @property {string} [s_index] The index of this form (optional).
    * @property {string} sid_pay_method The payment method ID.
    */
 
@@ -510,103 +631,12 @@ function Wl_Book_Process_ProcessGroupModel()
   this.a_pay_form = [];
 
   /**
-   * @typedef {{}} Wl_Book_Process_ProcessGroupModel_a_repeat
-   * @property {number[]} a_day The days of week when the appointment repeat.One of the {@link ADateWeekSid} constants.
-   * Should be passed for any type of repetition.
-   * @property {number[]} a_week Deprecated, use `a_day` instead!
-   * @property {*} dl_end Deprecated, use `dt_from` and `dt_to` instead!
-   * @property {*} dt_from Date to start recurring booking.
-   * Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
-   * @property {*} dt_to Date to complete recurring booking.
-   * Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
-   * @property {*} i_count The number of occurrences after which the appointment's repeat cycle stops.
-   *  Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
-   *  Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
-   * @property {number} i_duration Count of days\weeks\months between recurring bookings.
-   * @property {*} i_occurrence Deprecated, use `i_count` instead!
-   * @property {number} i_period Deprecated, use `i_duration` instead!
-   * @property {number} id_duration The measurement unit of `i_period`. One of the {@link ADurationSid} constants.
-   * Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
-   * @property {number} id_period Deprecated, use `id_duration` instead!
-   * @property {number} id_repeat_end Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.
-   */
-
-  /**
-   * Information about the recurring booking:
-   * <dl>
-   *   <dt>int[] <var>a_day</var></dt>
-   *   <dd>
-   *     The days of week when the appointment repeat.One of the {@link ADateWeekSid} constants.
-   *     Should be passed for any type of repetition.
-   *   </dd>
-   *   <dt>int[] <var>a_week</var></dt>
-   *   <dd>Deprecated, use `a_day` instead!</dd>
-   *   <dt>string [<var>dl_end</var>]</dt>
-   *   <dd>Deprecated, use `dt_from` and `dt_to` instead!</dd>
-   *   <dt>
-   *     string [<var>dt_from</var>]
-   *   </dt>
-   *   <dd>
-   *     Date to start recurring booking.
-   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
-   *   </dd>
-   *   <dt>
-   *     string [<var>dt_to</var>]
-   *   </dt>
-   *   <dd>
-   *     Date to complete recurring booking.
-   *     Expected for `id_repeat_end` = {@link RsRepeatEndSid.DATE}.
-   *   </dd>
-   *   <dt>
-   *      int [<var>i_count</var>]
-   *    </dt>
-   *    <dd>
-   *      The number of occurrences after which the appointment's repeat cycle stops.
-   *      Should be empty if the repeat cycle doesn't stop after a certain number of occurrences.
-   *      Expected for `id_repeat_end` = {@link RsRepeatEndSid.COUNT}.
-   *    </dd>
-   *   <dt>int <var>i_duration</var></dt>
-   *   <dd>Count of days\weeks\months between recurring bookings.</dd>
-   *   <dt>int [<var>i_occurrence</var>]</dt>
-   *   <dd>Deprecated, use `i_count` instead!</dd>
-   *   <dt>int <var>i_period</var></dt>
-   *   <dd>Deprecated, use `i_duration` instead!</dd>
-   *   <dt>
-   *     int <var>id_duration</var>
-   *   </dt>
-   *   <dd>
-   *     The measurement unit of `i_period`. One of the {@link ADurationSid} constants.
-   *     Available duration units are: {@link ADurationSid.DAY}, {@link ADurationSid.WEEK}, {@link ADurationSid.MONTH}.
-   *   </dd>
-   *   <dt>int <var>id_period</var></dt>
-   *   <dd>Deprecated, use `id_duration` instead!</dd>
-   *   <dt>int <var>id_repeat_end</var></dt>
-   *   <dd>Possible ways to stop repeatable events. One of the {@link RsRepeatEndSid} constants.</dd>
-   * </dl>
-   *
-   * This will be `null` if the booking isn't recurring.
-   *
-   * @post post
-   * @type {?Wl_Book_Process_ProcessGroupModel_a_repeat}
-   */
-  this.a_repeat = null;
-
-  /**
    * Primary keys of bookings made.
    *
    * @post result
    * @type {string[]}
    */
   this.a_visit = undefined;
-
-  /**
-   * Determines whether the class/event can be booked at this step or not.
-   * This is an external process control flag.
-   *
-   * @post post
-   * @type {boolean}
-   */
-  this.can_book = true;
 
   /**
    * Date/time to which session is booked.
@@ -627,16 +657,16 @@ function Wl_Book_Process_ProcessGroupModel()
   this.id_mode = 0;
 
   /**
-   * `true` to book unpaid.
-   * `false` otherwise.
+   * `true` if action is performed as a staff member; `false` otherwise.
    *
-   * Allows booking unpaid when client has a login promotion that can be used to pay for the service.
-   * Allowed in {@link Wl_Mode_ModeSid.WIDGET} mode only.
+   * If `true` is sent, access to the business and to the client will be checked.
+   * If `false` is sent, user can book only for himself or for relatives if this is allowed in business settings.
    *
-   * @post post
+   * @get get
+   * @post get
    * @type {boolean}
    */
-  this.is_book_unpaid = false;
+  this.is_backend = false;
 
   /**
    * Checking whether the client has a credit card (if configured in the business) will be skipped if this flag is set to `false`.
@@ -658,15 +688,6 @@ function Wl_Book_Process_ProcessGroupModel()
    * @type {boolean}
    */
   this.is_force_pay_later = false;
-
-  /**
-   * Key of the business in which the wizard is executed.
-   * Never may be `null`. `null` is enabled only for compatibility with parent.
-   *
-   * @post get
-   * @type {?string}
-   */
-  this.k_business = null;
 
   /**
    * Key of session which is booked.
@@ -696,30 +717,12 @@ function Wl_Book_Process_ProcessGroupModel()
   this.k_pay_installment_template = null;
 
   /**
-   * `true` to show "book for" option in booking wizard. `false` for default behavior.
-   *
-   * @get get
-   * @post get
-   * @type {boolean}
-   */
-  this.show_relation = false;
-
-  /**
    * The discount code to be applied to the purchase.
    *
    * @post post
    * @type {string}
    */
   this.text_discount_code = "";
-
-  /**
-   * The client key for which the booking is being made.
-   *
-   * @get get
-   * @post get
-   * @type {string}
-   */
-  this.uid = "0";
 
   this.changeInit();
 }
@@ -731,5 +734,5 @@ WlSdk_ModelAbstract.extends(Wl_Book_Process_ProcessGroupModel);
  */
 Wl_Book_Process_ProcessGroupModel.prototype.config=function()
 {
-  return {"a_field": {"a_book_error": {"post": {"result": true}},"a_client": {"post": {"post": true}},"a_login_activity_book": {"post": {"result": true}},"a_pay_form": {"post": {"post": true}},"a_repeat": {"post": {"post": true}},"a_visit": {"post": {"result": true}},"can_book": {"post": {"post": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_book_unpaid": {"post": {"post": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"k_business": {"post": {"get": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_login_activity_purchase": {"post": {"result": true}},"k_pay_installment_template": {"post": {"post": true}},"show_relation": {"get": {"get": true},"post": {"get": true}},"text_discount_code": {"post": {"post": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_book_error": {"post": {"result": true}},"a_client": {"post": {"post": true}},"a_login_activity_book": {"post": {"result": true}},"a_pay_form": {"post": {"post": true}},"a_visit": {"post": {"result": true}},"dt_date_gmt": {"get": {"get": true},"post": {"get": true}},"id_mode": {"get": {"get": true},"post": {"get": true}},"is_backend": {"get": {"get": true},"post": {"get": true}},"is_credit_card_check": {"get": {"get": true},"post": {"get": true}},"is_force_pay_later": {"post": {"post": true}},"k_class_period": {"get": {"get": true},"post": {"get": true}},"k_login_activity_purchase": {"post": {"result": true}},"k_pay_installment_template": {"post": {"post": true}},"text_discount_code": {"post": {"post": true}}}};
 };
