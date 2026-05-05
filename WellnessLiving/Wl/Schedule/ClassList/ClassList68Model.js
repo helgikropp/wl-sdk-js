@@ -34,6 +34,20 @@ function Wl_Schedule_ClassList_ClassList68Model()
   this.a_class = [];
 
   /**
+   * List of tabs keys. Each value is a primary key in the {@link \Wl\Classes\Tab\Sql\ClassTab\Sql} table.
+   *
+   * This will be ignored if {@link Wl_Schedule_ClassList_ClassList68Model.is_tab_all} is `true`.
+   *
+   * If list of tab keys is not empty, {@link Wl_Schedule_ClassList_ClassList68Model.id_class_tab} is mandatory.
+   *
+   * `null` if no filtering by Book Now Tab is required.
+   *
+   * @post post
+   * @type {?string[]}
+   */
+  this.a_class_tab = null;
+
+  /**
    * Class filter by day of the week.
    * Array of number representing the days of the week.
    * Return sessions matching the given weekdays.
@@ -318,7 +332,7 @@ function Wl_Schedule_ClassList_ClassList68Model()
   this.a_time = [];
 
   /**
-   * The list start date in UTC and in MySQL format.
+   * The list start date in MySQL format.
    *
    * @post post
    * @type {string}
@@ -326,7 +340,7 @@ function Wl_Schedule_ClassList_ClassList68Model()
   this.dt_date = "";
 
   /**
-   * The list end date in UTC and in MySQL format.
+   * The list end date in MySQL format.
    * <no-sdk>
    * If left empty, the default duration is {@link Wl_Schedule_ClassList_ClassList68Model.DEFAULT_PERIOD} days after
    * {@link Wl_Schedule_ClassList_ClassList68Model.dt_date}.
@@ -341,7 +355,7 @@ function Wl_Schedule_ClassList_ClassList68Model()
    * ID of tab. One of {@link Wl_Classes_Tab_TabSid} constants.
    * This will be ignored if {@link Wl_Schedule_ClassList_ClassList68Model.is_tab_all} is `true`.
    *
-   * `null` if no filtering by Tab is required.
+   * `null` if no filtering by tab is required.
    *
    * @post post
    * @type {?number}
@@ -406,9 +420,7 @@ function Wl_Schedule_ClassList_ClassList68Model()
   this.k_business = "0";
 
   /**
-   * The category tab key.
-   *
-   * This will be `null` if not set yet.
+   * The tab key.
    * This will be ignored if {@link Wl_Schedule_ClassList_ClassList68Model.is_tab_all} is `true`.
    *
    * @post post
@@ -418,7 +430,7 @@ function Wl_Schedule_ClassList_ClassList68Model()
 
   /**
    * The list of staff members to filter.
-   * A comma seperated list of staff keys.
+   * A comma separated list of staff keys.
    *
    * @deprecated Use {@link Wl_Schedule_ClassList_ClassList68Model.s_staff_uid} instead.
    * @post post
@@ -428,7 +440,7 @@ function Wl_Schedule_ClassList_ClassList68Model()
 
   /**
    * The list of staff user keys to filter.
-   * A comma seperated list of staff user keys.
+   * A comma separated list of staff user keys.
    *
    * @post post
    * @type {string}
@@ -486,7 +498,7 @@ WlSdk_ModelAbstract.extend(Wl_Schedule_ClassList_ClassList68Model);
  */
 Wl_Schedule_ClassList_ClassList68Model.prototype.config=function()
 {
-  return {"a_field": {"a_calendar": {"post": {"result": true}},"a_class": {"post": {"post": true}},"a_day": {"post": {"post": true}},"a_event": {"post": {"post": true}},"a_location": {"post": {"post": true}},"a_quick": {"post": {"result": true}},"a_session": {"post": {"result": true}},"a_time": {"post": {"post": true}},"dt_date": {"post": {"post": true}},"dt_end": {"post": {"post": true}},"id_class_tab": {"post": {"post": true}},"is_response_short": {"post": {"post": true}},"is_tab_all": {"post": {"post": true}},"is_timezone_different": {"post": {"result": true}},"is_virtual": {"post": {"post": true}},"is_virtual_service": {"post": {"result": true}},"k_business": {"post": {"post": true}},"k_class_tab": {"post": {"post": true}},"s_staff": {"post": {"post": true}},"s_staff_uid": {"post": {"post": true}}, "show_cancel": {"post": {"post": true}},"show_class": {"post": {"post": true}},"show_event": {"post": {"post": true}},"show_quick_filter": {"post": {"post": true}},"uid": {"post": {"post": true}}}};
+  return {"a_field": {"a_calendar": {"post": {"result": true}},"a_class": {"post": {"post": true}},"a_class_tab": {"post": {"post": true}},"a_day": {"post": {"post": true}},"a_event": {"post": {"post": true}},"a_location": {"post": {"post": true}},"a_quick": {"post": {"result": true}},"a_session": {"post": {"result": true}},"a_time": {"post": {"post": true}},"dt_date": {"post": {"post": true}},"dt_end": {"post": {"post": true}},"id_class_tab": {"post": {"post": true}},"is_response_short": {"post": {"post": true}},"is_tab_all": {"post": {"post": true}},"is_timezone_different": {"post": {"result": true}},"is_virtual": {"post": {"post": true}},"is_virtual_service": {"post": {"result": true}},"k_business": {"post": {"post": true}},"k_class_tab": {"post": {"post": true}},"s_staff": {"post": {"post": true}},"s_staff_uid": {"post": {"post": true}},"show_cancel": {"post": {"post": true}},"show_class": {"post": {"post": true}},"show_event": {"post": {"post": true}},"show_quick_filter": {"post": {"post": true}},"uid": {"post": {"post": true}}}};
 };
 
 /**
