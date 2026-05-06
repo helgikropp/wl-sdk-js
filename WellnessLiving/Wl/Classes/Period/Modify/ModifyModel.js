@@ -70,7 +70,6 @@ function Wl_Classes_Period_Modify_ModifyModel()
   /**
    * The mode type. One of the {@link Wl_Mode_ModeSid} constants.
    *
-   * @get get
    * @post get
    * @type {number}
    */
