@@ -120,27 +120,6 @@ function Wl_Appointment_Book_Finish_Finish47Model()
   this.a_payment_data = [];
 
   /**
-   * @typedef {{}} Wl_Appointment_Book_Finish_Finish47Model_a_purchase
-   * @property {string} k_login_promotion Key of applied user's purchase option.
-   * @property {string} k_session_pass Key of applied session pass.
-   */
-
-  /**
-   * Keys - primary keys of books made.
-   * Values - arrays with next keys:
-   * <dl>
-   *     <dt>string `k_login_promotion`</dt>
-   *     <dd>Primary key of applied user's purchase option.</dd>
-   *     <dt>string `k_session_pass`</dt>
-   *     <dd>Primary key of applied session pass.</dd>
-   * </dl>
-   *
-   * @post result
-   * @type {Wl_Appointment_Book_Finish_Finish47Model_a_purchase[]}
-   */
-  this.a_purchase = undefined;
-
-  /**
    * The purchase item keys.
    * Empty if no purchases are made for the appointment booking.
    *
@@ -207,6 +186,36 @@ function Wl_Appointment_Book_Finish_Finish47Model()
    * @type {string[]}
    */
   this.a_visit = undefined;
+
+  /**
+   * @typedef {{}} Wl_Appointment_Book_Finish_Finish47Model_a_visit_payment
+   * @property {boolean} is_free `true` if the visit is free; `false` otherwise.
+   * @property {string} k_login_promotion Key of applied user's purchase option.
+   * @property {string} k_promotion Key of purchase option.
+   * @property {string} k_session_pass Key of applied session pass.
+   * @property {string} text_promotion Purchase option title.
+   */
+
+  /**
+   * Keys - keys of books made.
+   * Values - arrays with next keys:
+   * <dl>
+   *     <dt>bool `is_free`</dt>
+   *     <dd>`true` if the visit is free; `false` otherwise.</dd>
+   *     <dt>string `k_login_promotion`</dt>
+   *     <dd>Key of applied user's purchase option.</dd>
+   *     <dt>string `k_promotion`</dt>
+   *     <dd>Key of purchase option.</dd>
+   *     <dt>string `k_session_pass`</dt>
+   *     <dd>Key of applied session pass.</dd>
+   *     <dt>string `text_promotion`</dt>
+   *     <dd>Purchase option title.</dd>
+   * </dl>
+   *
+   * @post result
+   * @type {Wl_Appointment_Book_Finish_Finish47Model_a_visit_payment[]}
+   */
+  this.a_visit_payment = undefined;
 
   /**
    * The booking mode ID. One of the {@link Wl_Mode_ModeSid} constants.
@@ -323,5 +332,5 @@ WlSdk_ModelAbstract.extend(Wl_Appointment_Book_Finish_Finish47Model);
  */
 Wl_Appointment_Book_Finish_Finish47Model.prototype.config=function()
 {
-  return {"a_field": {"a_answer": {"post": {"post": true}},"a_appointment": {"post": {"result": true}},"a_book_data": {"post": {"post": true}},"a_login_activity_visit": {"post": {"result": true}},"a_notification": {"get": {"result": true},"post": {"post": true}},"a_pay_form": {"post": {"post": true}},"a_payment_data": {"post": {"post": true}},"a_purchase": {"post": {"result": true}},"a_purchase_item": {"post": {"post": true}},"a_quiz_response": {"post": {"post": true}},"a_uid": {"get": {"get": true},"post": {"get": true}},"a_user": {"post": {"get": true}},"a_visit": {"post": {"result": true}},"id_mode": {"post": {"post": true}},"id_pay": {"post": {"get": true}},"is_back_to_back": {"post": {"post": true}},"is_unpaid_force": {"post": {"post": true}},"is_walk_in": {"get": {"get": true},"post": {"get": true}},"k_appointment": {"post": {"get": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_location": {"get": {"get": true,"result": true},"post": {"get": true}},"k_timezone": {"post": {"get": true}},"m_pay": {"post": {"post": true}},"s_id": {"post": {"post": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
+  return {"a_field": {"a_answer": {"post": {"post": true}},"a_appointment": {"post": {"result": true}},"a_book_data": {"post": {"post": true}},"a_login_activity_visit": {"post": {"result": true}},"a_notification": {"get": {"result": true},"post": {"post": true}},"a_pay_form": {"post": {"post": true}},"a_payment_data": {"post": {"post": true}},"a_purchase_item": {"post": {"post": true}},"a_quiz_response": {"post": {"post": true}},"a_uid": {"get": {"get": true},"post": {"get": true}},"a_user": {"post": {"get": true}},"a_visit": {"post": {"result": true}},"a_visit_payment": {"post": {"result": true}},"id_mode": {"post": {"post": true}},"id_pay": {"post": {"get": true}},"is_back_to_back": {"post": {"post": true}},"is_unpaid_force": {"post": {"post": true}},"is_walk_in": {"get": {"get": true},"post": {"get": true}},"k_appointment": {"post": {"get": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_location": {"get": {"get": true,"result": true},"post": {"get": true}},"k_timezone": {"post": {"get": true}},"m_pay": {"post": {"post": true}},"s_id": {"post": {"post": true}},"uid": {"get": {"get": true},"post": {"get": true}}}};
 };
