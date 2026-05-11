@@ -130,7 +130,7 @@ Wl_Book_Cancel_CancelCanModel.prototype.config=function()
  * @param {string} k_visit Visit key.
  * @param {string} uid The user key on whose behalf the cancellation would be performed.
  * @returns {Wl_Book_Cancel_CancelCanModel}
- * @see Core_Spa_Model.instanceGet()
+ * @see WlSdk_ModelAbstract.instanceGet()
  */
 
 /**
