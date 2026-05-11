@@ -16,6 +16,80 @@ function Wl_Visit_VisitStatusModel()
   this._s_key = "k_visit,k_business";
 
   /**
+   * @typedef {{}} Wl_Visit_VisitStatusModel_a_cancel_a_penalty
+   * @property {boolean} is_flat `true` in a case of flat penalty type; `false` in a case of percentage penalty type.
+   * @property {string} k_currency Currency key.
+   * @property {string} m_amount Penalty amount.
+   */
+  /**
+   * @typedef {{}} Wl_Visit_VisitStatusModel_a_cancel
+   * @property {Wl_Visit_VisitStatusModel_a_cancel_a_penalty} a_penalty <dl>
+   *       <dt>bool `is_flat`</dt>
+   *       <dd>`true` in a case of flat penalty type; `false` in a case of percentage penalty type.</dd>
+   *       <dt>string `k_currency`</dt>
+   *       <dd>Currency key.</dd>
+   *       <dt>string `m_amount`</dt>
+   *       <dd>Penalty amount.</dd>
+   *    </dl>
+   *    `null` if penalty must be not applied.
+   * @property {boolean} can_cancel `true` if the booking can be canceled online by the specified user, `false` otherwise.
+   * @property {boolean} is_flag `true` if the client's account will be flagged instead of charging a monetary fee, `false` otherwise.
+   * @property {boolean} is_late `true` if the cancellation would be considered a late cancel, `false` otherwise.
+   * @property {boolean} is_refund `true` if the visit credit (from the purchase option used to book) will be returned
+   *    to the user's profile after cancellation, `false` otherwise.
+   */
+
+  /**
+   * Information about whether the given user can cancel an online booking and what
+   * consequences the cancellation would have:
+   *  <dl>
+   *      <dt>
+   *          array|null `a_penalty`
+   *      </dt>
+   *      <dd>
+   *        <dl>
+   *           <dt>bool `is_flat`</dt>
+   *           <dd>`true` in a case of flat penalty type; `false` in a case of percentage penalty type.</dd>
+   *           <dt>string `k_currency`</dt>
+   *           <dd>Currency key.</dd>
+   *           <dt>string `m_amount`</dt>
+   *           <dd>Penalty amount.</dd>
+   *        </dl>
+   *        `null` if penalty must be not applied.
+   *      </dd>
+   *      <dt>
+   *          bool `can_cancel`
+   *      </dt>
+   *      <dd>
+   *        `true` if the booking can be canceled online by the specified user, `false` otherwise.
+   *      </dd>
+   *      <dt>
+   *          bool `is_flag`
+   *      </dt>
+   *      <dd>
+   *        `true` if the client's account will be flagged instead of charging a monetary fee, `false` otherwise.
+   *      </dd>
+   *      <dt>
+   *          bool `is_late`
+   *      </dt>
+   *      <dd>
+   *        `true` if the cancellation would be considered a late cancel, `false` otherwise.
+   *      </dd>
+   *      <dt>
+   *          bool `is_refund`
+   *      </dt>
+   *      <dd>
+   *        `true` if the visit credit (from the purchase option used to book) will be returned
+   *        to the user's profile after cancellation, `false` otherwise.
+   *      </dd>
+   *  </dl>
+   *
+   * @get result
+   * @type {Wl_Visit_VisitStatusModel_a_cancel}
+   */
+  this.a_cancel = undefined;
+
+  /**
    * An array of service resources.
    *
    * The key refers to the `k_resource_type`. See {@link \RsResourceTypeSql}.
@@ -358,5 +432,5 @@ WlSdk_ModelAbstract.extend(Wl_Visit_VisitStatusModel);
  */
 Wl_Visit_VisitStatusModel.prototype.config=function()
 {
-  return {"a_field": {"a_resource": {"get": {"result": true}},"a_resource_alias": {"get": {"result": true}},"a_staff": {"get": {"result": true}},"dt_date": {"get": {"result": true}},"dtl_date": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_wait_spot": {"get": {"result": true}},"id_mode": {"get": {"result": true},"post": {"post": true}},"id_visit": {"get": {"result": true},"post": {"post": true}},"id_visit_from": {"post": {"post": true,"error": true}},"is_charge_fee": {"post": {"get": true}},"is_event": {"get": {"result": true}},"is_mail": {"post": {"post": true}},"is_push": {"post": {"post": true}},"is_request": {"get": {"result": true}},"is_sms": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_class": {"get": {"result": true}},"k_class_period": {"get": {"result": true}},"k_location": {"get": {"result": true}},"k_mail_pattern_live": {"post": {"get": true}},"k_service": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"k_timezone": {"get": {"get": true}},"k_visit": {"get": {"get": true},"post": {"get": true}},"s_calendar_file_content": {"get": {"result": true}},"text_abbr_timezone": {"get": {"result": true}},"text_location": {"get": {"result": true}},"text_reason": {"post": {"get": true}},"text_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}},"uid": {"get": {"result": true}},"url_book_referral": {"get": {"result": true}},"url_book_referral_short": {"get": {"result": true}},"url_virtual_service": {"get": {"result": true}}}};
+  return {"a_field": {"a_cancel": {"get": {"result": true}},"a_resource": {"get": {"result": true}},"a_resource_alias": {"get": {"result": true}},"a_staff": {"get": {"result": true}},"dt_date": {"get": {"result": true}},"dtl_date": {"get": {"result": true}},"i_duration": {"get": {"result": true}},"i_wait_spot": {"get": {"result": true}},"id_mode": {"get": {"result": true},"post": {"post": true}},"id_visit": {"get": {"result": true},"post": {"post": true}},"id_visit_from": {"post": {"post": true,"error": true}},"is_charge_fee": {"post": {"get": true}},"is_event": {"get": {"result": true}},"is_mail": {"post": {"post": true}},"is_push": {"post": {"post": true}},"is_request": {"get": {"result": true}},"is_sms": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}},"k_class": {"get": {"result": true}},"k_class_period": {"get": {"result": true}},"k_location": {"get": {"result": true}},"k_mail_pattern_live": {"post": {"get": true}},"k_service": {"get": {"result": true}},"k_staff": {"get": {"result": true}},"k_timezone": {"get": {"get": true}},"k_visit": {"get": {"get": true},"post": {"get": true}},"s_calendar_file_content": {"get": {"result": true}},"text_abbr_timezone": {"get": {"result": true}},"text_location": {"get": {"result": true}},"text_reason": {"post": {"get": true}},"text_staff": {"get": {"result": true}},"text_title": {"get": {"result": true}},"uid": {"get": {"result": true}},"url_book_referral": {"get": {"result": true}},"url_book_referral_short": {"get": {"result": true}},"url_virtual_service": {"get": {"result": true}}}};
 };
