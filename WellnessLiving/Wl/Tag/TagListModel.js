@@ -17,6 +17,7 @@ function Wl_Tag_TagListModel()
 
   /**
    * @typedef {{}} Wl_Tag_TagListModel_a_list
+   * @property {number} i_sort The sort order of the tag.
    * @property {string} k_tag The tag key.
    * @property {string} text_title The tag title.
    */
@@ -25,6 +26,8 @@ function Wl_Tag_TagListModel()
    * The tag list.
    *
    * Each element has the next structure:<dl>
+   * <dt>int <var>i_sort</var> </dt>
+   * <dd>The sort order of the tag.</dd>
    * <dt>string <var>k_tag</var> </dt>
    * <dd>The tag key.</dd>
    * <dt>string <var>text_title</var></dt>
@@ -32,14 +35,26 @@ function Wl_Tag_TagListModel()
    * </dl>
    *
    * @get result
+   * @post post,result
    * @type {Wl_Tag_TagListModel_a_list[]}
    */
   this.a_list = undefined;
 
   /**
+   * List of tags in json format.
+   * See {@link Wl_Tag_TagListModel.a_list} for the structure of each tag.
+   * `null` to use {@link Wl_Tag_TagListModel} for getting the tag list.
+   *
+   * @post post
+   * @type {?string}
+   */
+  this.json_list = undefined;
+
+  /**
    * The business key of the tags.
    *
    * @get get
+   * @post get
    * @type {string}
    */
   this.k_business = undefined;
@@ -54,7 +69,7 @@ WlSdk_ModelAbstract.extend(Wl_Tag_TagListModel);
  */
 Wl_Tag_TagListModel.prototype.config=function()
 {
-  return {"a_field": {"a_list": {"get": {"result": true}},"k_business": {"get": {"get": true}}}};
+  return {"a_field": {"a_list": {"get": {"result": true}, "post": {"post": true, "result": true}},"json_list": {"post": {"post": true}},"k_business": {"get": {"get": true},"post": {"get": true}}}};
 };
 
 /**
