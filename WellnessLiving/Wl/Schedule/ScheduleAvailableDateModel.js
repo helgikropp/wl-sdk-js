@@ -4,12 +4,12 @@
  * @augments WlSdk_ModelAbstract
  * @constructor
  */
-function Wl_Schedule_NextAvailable_DateModel()
+function Wl_Schedule_ScheduleAvailableDateModel()
 {
     WlSdk_ModelAbstract.apply(this);
 
     /**
-     *  Keys of classes.
+     * Keys of classes.
      *
      * Empty to search for all classes.
      *
@@ -29,7 +29,7 @@ function Wl_Schedule_NextAvailable_DateModel()
     this.a_day = [];
 
     /**
-     * Keys of event.
+     * Keys of events.
      *
      * Empty to search for all events.
      *
@@ -59,7 +59,7 @@ function Wl_Schedule_NextAvailable_DateModel()
     this.a_staff = [];
 
     /**
-     * @typedef {{}} Wl_Schedule_NextAvailable_DateModel_a_time
+     * @typedef {{}} Wl_Schedule_ScheduleAvailableDateModel_a_time
      * @property {string} tl_end End time.
      * @property {string} tl_start Start time.
      */
@@ -72,7 +72,7 @@ function Wl_Schedule_NextAvailable_DateModel()
      * Empty to search for all time.
      *
      * @get get
-     * @type {Wl_Schedule_NextAvailable_DateModel_a_time|{}}
+     * @type {Wl_Schedule_ScheduleAvailableDateModel_a_time|{}}
      */
     this.a_time = {};
 
@@ -147,12 +147,12 @@ function Wl_Schedule_NextAvailable_DateModel()
     this.changeInit();
 }
 
-WlSdk_ModelAbstract.extends(Wl_Schedule_Page_PageListModel);
+WlSdk_ModelAbstract.extends(Wl_Schedule_ScheduleAvailableDateModel);
 
 /**
  * @inheritDoc
  */
-Wl_Schedule_NextAvailable_DateModel.prototype.config=function()
+Wl_Schedule_ScheduleAvailableDateModel.prototype.config=function()
 {
     return {"a_field": {"a_class": {"get": {"get": true}},"a_day": {"get": {"get": true}},"a_event": {"get": {"get": true}},"a_location": {"get": {"get": true}},"a_staff": {"get": {"get": true}},"a_time": {"get": {"get": true}},"dl_next_available": {"get": {"result": true}},"dtu_start": {"get": {"get": true}},"id_class_tab": {"get": {"get": true}},"is_class": {"get": {"get": true}},"is_event": {"get": {"get": true}},"is_virtual": {"get": {"get": true}},"k_business": {"get": {"get": true}},"k_timezone": {"get": {"get": true}}}};
 };
