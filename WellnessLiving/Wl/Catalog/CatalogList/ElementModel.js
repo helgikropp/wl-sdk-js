@@ -84,6 +84,15 @@ function Wl_Catalog_CatalogList_ElementModel()
    *   <dd>Only for coupons. Current date, local date in MySQL format.</dd>
    *   <dt>string `dl_start`</dt>
    *   <dd>Only for coupons. Date to activate the coupon on, local date in MySQL format.</dd>
+   *   <dt>int `i_duration`</dt>
+   *   <dd>Number of periods the coupon is active. Type of period is specified by `id_duration`.</dd>
+   *   <dt>int `id_activation`</dt>
+   *   <dd>Type of coupon activation date specification.
+   *      One of {@link RsActivationSid.DAY}(7)/{@link RsActivationSid.FIXED}(3)/{@link RsActivationSid.SALE}(1) constants.</dd>
+   *   <dt>int `id_duration`</dt>
+   *   <dd>Duration of a period. A constant from {@link ADurationSid}.</dd>
+   *   <dt>int `id_duration_type`</dt>
+   *   <dd>A way to specify a duration. One of {@link RsDurationTypeSid} constants.</dd>
    *   <dt>bool `is_renew_public`</dt>
    *   <dd>
    *     Only for promotions.
